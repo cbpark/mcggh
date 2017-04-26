@@ -1,7 +1,14 @@
+/*
+ *  Copyright (C) 2017 Chan Beom Park <cbpark@gmail.com>
+ *
+ *  This file is part of MCGGH, which is released under the GNU General
+ *  Public License. See file LICENSE in the top directory of this project or
+ *  go to <http://www.gnu.org/licenses/> for full license details.
+ */
+
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
-#include <string>
 #include "breit_wigner.h"
 #include "constants.h"
 #include "gluons.h"
@@ -10,11 +17,11 @@
 #include "utils.h"
 
 const int N = 4000000;
-const std::string PDFNAME = "NNPDF23_lo_as_0130_qed";
-// const std::string PDFNAME = "cteq6l1";
+const char PDFNAME[] = "NNPDF23_lo_as_0130_qed";
+// const char PDFNAME[] = "cteq6l1";
 
 int main(int argc, char *argv[]) {
-    std::string appname("ggh1");
+    const char appname[] = "ggh1";
     if (argc != 3) {
         std::cerr << "Usage: " << appname << " <ECM in GeV> <MH in GeV>\n";
         return 1;
@@ -26,12 +33,14 @@ int main(int argc, char *argv[]) {
               << " GeV)\n";
 
     const double s = eCM * eCM;
+    // the result seems to be not much sensitive to Gamma_H.
     const double gammaH = mH / 25000.0;
-    const double qmin = 0.0, mtr = mH, gtr = mH;  // parameters for random shat
-    const double mu = mH;                         // scale for PDF
+    // parameters for random \hat{s}.
+    const double qmin = 0.0, mtr = mH, gtr = mH;
+    const double mu = mH;  // scale for PDF
     const mcggh::Rho rho(qmin, mtr, gtr, s);
 
-    // alpha_s and PDF settings.
+    // alpha_s and PDF settings (using LHAPDF).
     auto pdf = mcggh::mkPdf(PDFNAME);
     const double alphas = pdf->alphasQ(mu);
 
@@ -42,7 +51,6 @@ int main(int argc, char *argv[]) {
 
         double rho_val = mcggh::rhoValue(rho);
         double shat = rho.shat(rho_val);
-
         mcggh::InitGluon glu(s, shat);
         double w = mcggh::dsigma(pdf, glu, alphas, mu, mH, gammaH) *
                    rho.delta() * glu.delta_y() * rho.jacobian(rho_val);
@@ -54,7 +62,7 @@ int main(int argc, char *argv[]) {
     const double sigma = sum_w / N;
 
     // error
-    const double variance = sum_w_sq / N - std::pow(sigma, 2);
+    const double variance = sum_w_sq / N - sigma * sigma;
     const double error = std::sqrt(variance / N);
 
     std::cout << "-- Done integrating.\n";
