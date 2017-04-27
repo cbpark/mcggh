@@ -27,6 +27,6 @@ const double ALPHAS = 0.118;
 const double PI = 3.141592653589793238463;
 
 /** conversion factor GeV^-2 -> pb */
-const double PBCONV = 3.894e8;
+const double PBCONV = 3.893793656e8;
 
 #endif  // SRC_CONSTANTS_H_

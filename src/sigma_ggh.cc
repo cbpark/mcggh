@@ -13,42 +13,51 @@
 #include "constants.h"
 
 namespace mcggh {
-// Eq.(2.47) in arXiv:hep-ph/0503172
+/*
+ * Eq.(2.47) in arXiv:hep-ph/0503172.
+ * tau is 1/tau_Q.
+ */
 std::complex<double> ftau(const double tau) {
-    if (tau > 1) {
-        const double beta = std::sqrt(1 - 1.0 / tau);
+    if (tau < 1) {
+        const double beta = std::sqrt(1 - tau);
         const std::complex<double> arg(std::log((1 + beta) / (1 - beta)), -PI);
         return -0.25 * std::pow(arg, 2);
     }
-    const double arg = std::asin(std::sqrt(tau));
+    const double arg = std::asin(1.0 / std::sqrt(tau));
     return std::complex<double>(arg * arg, 0);
 }
 
-// Eq.(2.46) in arXiv:hep-ph/0503172
+/*
+ * Eq.(2.46) in arXiv:hep-ph/0503172.
+ * tau is 1/tau_Q. The factor 2 is absorbed.
+ */
 std::complex<double> a12tau(const double tau) {
-    return 2.0 * (tau + (tau - 1) * ftau(tau)) / (tau * tau);
+    return tau * (std::complex<double>(1.0, 0) + (1 - tau) * ftau(tau));
 }
 
-// Eq.(3.57) in arXiv:hep-ph/0503172
+/*
+ * Eq.(3.57) in arXiv:hep-ph/0503172.
+ * tau is 1/tau_Q. The 3/4 factor is rescaled * to 3/2.
+ */
 double sigma0(const double mh, const double alphas) {
     const double coeff = GF * alphas * alphas / (288 * std::sqrt(2) * PI);
 
     const double mh2 = mh * mh;
-    std::complex<double> a12tau_sum = a12tau(mh2 / (4 * MT * MT));
-    a12tau_sum += a12tau(mh2 / (4 * MB * MB));
+    std::complex<double> a12tau_sum = a12tau(4 * MT * MT / mh2);
+    a12tau_sum += a12tau(4 * MB * MB / mh2);
     const double a12tau_sum_sq = std::norm(a12tau_sum);
 
-    return coeff * (9.0 / 16) * a12tau_sum_sq;
+    return coeff * (9.0 / 4) * a12tau_sum_sq;
 }
 
-// Eq.(3.56) in arXiv:hep-ph/0503172
+/* Eq.(3.56) in arXiv:hep-ph/0503172 */
 double delta(const double shat, const double mh, const double gammah) {
     const double sgammah = shat * gammah / mh;
     return (1.0 / PI) * sgammah /
-           (std::pow(shat - mh * mh, 2) + std::pow(sgammah, 2));
+           (std::pow(shat - mh * mh, 2) + sgammah * sgammah);
 }
 
-// Eq.(3.55) in arXiv:hep-ph/0503172
+/* Eq.(3.55) in arXiv:hep-ph/0503172 */
 double sigmaLO(const double shat, const double mh, const double gammah,
                const double alphas) {
     return mh * mh * sigma0(mh, alphas) * delta(shat, mh, gammah);
