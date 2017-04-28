@@ -20,11 +20,12 @@ private:
 
 public:
     Rho() = delete;
-    Rho(const double qcut, const double m, const double gamma, const double s)
+    Rho(const double qmin, const double qmax, const double m,
+        const double gamma, const double s)
         : m_(m), gamma_(gamma), s_(s) {
         const double gm = gamma_ * m_;
-        rho1_ = std::atan((qcut * qcut - m_ * m_) / gm);
-        rho2_ = std::atan((s_ - m_ * m_) / gm);
+        rho1_ = std::atan((qmin * qmin - m_ * m_) / gm);
+        rho2_ = std::atan((qmax * qmax - m_ * m_) / gm);
     }
 
     double delta() const { return rho2_ - rho1_; }

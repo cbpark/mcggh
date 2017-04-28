@@ -36,9 +36,9 @@ int main(int argc, char *argv[]) {
     // the result seems to be not much sensitive to Gamma_H.
     const double gammaH = mH / 25000.0;
     // parameters for random \hat{s}.
-    const double qmin = 0.0, mtr = mH, gtr = mH;
+    const double qmin = 0.0, qmax = std::sqrt(s), mtr = mH, gtr = mH;
     const double mu = mH;  // scale for PDF
-    const mcggh::Rho rho(qmin, mtr, gtr, s);
+    const mcggh::Rho rho(qmin, qmax, mtr, gtr, s);
 
     // alpha_s and PDF settings (using LHAPDF).
     auto pdf = mcggh::mkPdf(PDFNAME);
