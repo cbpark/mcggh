@@ -11,43 +11,22 @@
 #include <complex>
 #include <memory>
 #include "constants.h"
+#include "loops.h"
 
 namespace mcggh {
 /*
- * Eq.(2.47) in arXiv:hep-ph/0503172.
- * tau is 1/tau_Q.
- */
-std::complex<double> ftau(const double tau) {
-    if (tau < 1) {
-        const double beta = std::sqrt(1 - tau);
-        const std::complex<double> arg(std::log((1 + beta) / (1 - beta)), -PI);
-        return -0.25 * std::pow(arg, 2);
-    }
-    const double arg = std::asin(1.0 / std::sqrt(tau));
-    return std::complex<double>(arg * arg, 0);
-}
-
-/*
- * Eq.(2.46) in arXiv:hep-ph/0503172.
- * tau is 1/tau_Q. The factor 2 is absorbed.
- */
-std::complex<double> a12tau(const double tau) {
-    return tau * (std::complex<double>(1.0, 0) + (1 - tau) * ftau(tau));
-}
-
-/*
  * Eq.(3.57) in arXiv:hep-ph/0503172.
- * tau is 1/tau_Q. The 3/4 factor is rescaled * to 3/2.
+ * tau is 1/tau_Q. The 3/4 factor is rescaled to 3/2.
  */
 double sigma0(const double mh, const double alphas) {
     const double coeff = GF * alphas * alphas / (288 * std::sqrt(2) * PI);
 
     const double mh2 = mh * mh;
-    std::complex<double> a12tau_sum = a12tau(4 * MT * MT / mh2);
-    a12tau_sum += a12tau(4 * MB * MB / mh2);
-    const double a12tau_sum_sq = std::norm(a12tau_sum);
+    std::complex<double> a12tau = fTriangle(4 * MT * MT / mh2);
+    a12tau += fTriangle(4 * MB * MB / mh2);
+    const double a12tau_sq = std::norm(a12tau);
 
-    return coeff * (9.0 / 4) * a12tau_sum_sq;
+    return coeff * (9.0 / 4) * a12tau_sq;
 }
 
 /* Eq.(3.56) in arXiv:hep-ph/0503172 */
