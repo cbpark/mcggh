@@ -12,7 +12,10 @@
 #include "couplings.h"
 
 namespace mcggh {
-/** Eq.(13) of arXiv:hep-ph/9603205 */
+/** Eq.(13) of arXiv:hep-ph/9603205
+ *
+ *  both top and bottom quark loops are included
+ */
 double dsigmaLO_dt(const HiggsCoupl &c, const double costh,
                    const double alphas);
 }  // namespace mcggh
