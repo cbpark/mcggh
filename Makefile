@@ -14,7 +14,7 @@ ifeq ($(UNAME), Darwin)
 	CXXFLAGS += -stdlib=libc++
 endif
 
-EXE    := $(BINDIR)/ggh1
+EXE    := $(BINDIR)/ggh1 $(BINDIR)/ggh2
 EXESRC := $(patsubst $(BINDIR)/%,$(SRCDIR)/%.cc,$(EXE))
 EXEOBJ := $(EXESRC:.cc=.o)
 LIB    := $(LIBDIR)/lib$(PKGNAME).a
