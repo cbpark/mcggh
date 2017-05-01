@@ -64,6 +64,9 @@ void LoopParams::init(const double s, const double mh, const double mq,
 }
 
 complex<double> fBox(const LoopParams &p) {
+    const double s2 = p.s_ * p.s_;
+    if (s2 <= 0) { return complex<double>(0, 0); }
+
     auto box = complex<double>(4 * p.s_, 0) + 8 * p.s_ * p.mQ2_ * p.Cab_;
     box += -2 * p.s_ * (p.s_ + p.rhoc_ + p.rhod_ - 8) * p.mQ2_ * p.mQ2_ *
            (p.Dabc_ + p.Dbac_ + p.Dacb_);
@@ -71,11 +74,16 @@ complex<double> fBox(const LoopParams &p) {
            (p.t1_ * p.Cac_ + p.u1_ * p.Cbc_ + p.u2_ * p.Cad_ + p.t2_ * p.Cbd_ -
             (p.t_ * p.u_ - p.rhoc_ * p.rhod_) * p.mQ2_ * p.Dacb_);
 
-    return box / (p.s_ * p.s_);
+    return box / s2;
 }
 
 complex<double> gBox(const LoopParams &p) {
+    if (p.s_ <= 0) { return complex<double>(0, 0); }
+
     const double rho2 = p.rhoc_ * p.rhod_;
+    const double denom = p.s_ * (p.t_ * p.u_ - rho2);
+    if (denom == 0) { return complex<double>(0, 0); }
+
     auto box = (p.t_ * p.t_ + rho2 - 8 * p.t_) * p.mQ2_ *
                (p.s_ * p.Cab_ + p.t1_ * p.Cac_ + p.t2_ * p.Cbd_ -
                 p.s_ * p.t_ * p.mQ2_ * p.Dbac_);
@@ -87,6 +95,6 @@ complex<double> gBox(const LoopParams &p) {
     box += -2 * (p.t_ + p.u_ - 8) * (p.t_ * p.u_ - rho2) * p.mQ2_ * p.mQ2_ *
            (p.Dabc_ + p.Dbac_ + p.Dacb_);
 
-    return box / (p.s_ * (p.t_ * p.u_ - rho2));
+    return box / denom;
 }
 }  // namespace mcggh

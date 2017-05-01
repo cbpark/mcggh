@@ -57,7 +57,7 @@ public:
     CM22() = delete;
     CM22(const double s, const double mh, const double costh)
         : s_(s), mh2_(mh*mh), costh_(costh) {
-        if (std::abs(costh_) > 1) {
+        if (costh_ < -1 || costh_ > 1) {
             sinth_ = -2;
         } else {
             sinth_ = std::sqrt(1 - costh_ * costh_);
