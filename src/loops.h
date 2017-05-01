@@ -38,6 +38,9 @@ private:
     void init(const double s, const double mh, const double mq,
               const double costh);
 };
+
+std::complex<double> fBox(const LoopParams &par);
+std::complex<double> gBox(const LoopParams &par);
 }  // namespace mcggh
 
 #endif  // SRC_LOOPS_H_

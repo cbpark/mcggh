@@ -10,8 +10,11 @@
 #define SRC_COUPLINGS_H_
 
 namespace mcggh {
+enum class QuarkType { TOP, BOTTOM };
+
 class HiggsCoupl {
 private:
+    double s_, mh_;
     double ctri_t_, cbox_t_;
     double ctri_b_, cbox_b_;
 
@@ -19,14 +22,33 @@ public:
     HiggsCoupl() = delete;
     HiggsCoupl(const double s, const double mh, const double xi_lambda,
                const double xi_t, const double xi_b, const double ghhtt,
-               const double ghhbb) {
-        init(s, mh, xi_lambda, xi_t, xi_b, ghhtt, ghhbb);
+               const double ghhbb)
+        : s_(s), mh_(mh) {
+        init(xi_lambda, xi_t, xi_b, ghhtt, ghhbb);
+    }
+
+    double shat() const { return s_; }
+    double mh() const { return mh_; }
+
+    double triangle(const QuarkType& typ) const {
+        if (typ == QuarkType::TOP) {
+            return ctri_t_;
+        } else {
+            return ctri_b_;
+        }
+    }
+
+    double box(const QuarkType& typ) const {
+        if (typ == QuarkType::TOP) {
+            return cbox_t_;
+        } else {
+            return cbox_b_;
+        }
     }
 
 private:
-    void init(const double s, const double mh, const double xi_lambda,
-              const double xi_t, const double xi_b, const double ghhtt,
-              const double ghhbb);
+    void init(const double xi_lambda, const double xi_t, const double xi_b,
+              const double ghhtt, const double ghhbb);
 };
 }  // namespace mcggh
 
