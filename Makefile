@@ -25,12 +25,17 @@ LIBOBJ := $(LIBSRC:.cc=.o)
 CXXFLAGS += $(shell lhapdf-config --cflags)
 LIBS     += $(shell lhapdf-config --libs)
 
+# LoopTools (http://www.feynarts.de/looptools/)
+LT := /usr
+CXXFLAGS += -I$(LT)/include
+LIBS     += -L$(LT)/lib -looptools
+
 .PHONY: all build clean
 
 all: $(EXE)
 
 $(BINDIR)/%: $(SRCDIR)/%.o build $(LIB)
-	$(CXX) $(LDFLAGS) -o $@ $< -L$(LIBDIR) -l$(PKGNAME) $(LIBS)
+	$(LT)/bin/f++ $(LDFLAGS) -o $@ $< -L$(LIBDIR) -l$(PKGNAME) $(LIBS)
 
 $(LIB): CXXFLAGS += -fPIC
 $(LIB): $(LIBOBJ)
