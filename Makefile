@@ -26,7 +26,7 @@ CXXFLAGS += $(shell lhapdf-config --cflags)
 LIBS     += $(shell lhapdf-config --libs)
 
 # LoopTools (http://www.feynarts.de/looptools/)
-LT := /usr
+LT       := /usr
 CXXFLAGS += -I$(LT)/include
 LIBS     += -L$(LT)/lib -looptools
 
