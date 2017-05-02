@@ -7,6 +7,7 @@
  */
 
 #include "sigma_gghh.h"
+#include <cmath>
 #include <complex>
 #include "constants.h"
 #include "couplings.h"
@@ -34,7 +35,20 @@ double dsigmaLO_dt(const HiggsCoupl &c, const double costh,
     box = gBox(pars);
     arg2 += c.box(QuarkType::BOTTOM) * box;
 
-    const double dsigma = std::norm(arg1) + std::norm(arg2);
-    return GF * GF * alphas * alphas / (512 * std::pow(2 * PI, 3)) * dsigma;
+    const double loopfn = std::norm(arg1) + std::norm(arg2);
+    return GF * GF * alphas * alphas / (512 * std::pow(2 * PI, 3)) * loopfn;
+}
+
+double dsigmaLO_dcosth(const HiggsCoupl &c, const double costh,
+                       const double alphas) {
+    const double s = c.shat();
+    if (s <= 0) { return 0; }
+
+    const double mh = c.mh();
+    const double thres = 4 * mh * mh;
+    if (thres > s) { return 0; }
+    const double beta = std::sqrt(1 - thres / s);
+
+    return dsigmaLO_dt(c, costh, alphas) * beta * s / 2;
 }
 }  // namespace mcggh

@@ -18,6 +18,9 @@ namespace mcggh {
  */
 double dsigmaLO_dt(const HiggsCoupl &c, const double costh,
                    const double alphas);
+
+double dsigmaLO_dcosth(const HiggsCoupl &c, const double costh,
+                       const double alphas);
 }  // namespace mcggh
 
 #endif  // SRC_SIGMA_GGHH_H_
