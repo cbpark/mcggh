@@ -9,8 +9,11 @@
 #include "sigma_gghh.h"
 #include <cmath>
 #include <complex>
+#include <memory>
+#include "LHAPDF/LHAPDF.h"
 #include "constants.h"
 #include "couplings.h"
+#include "gluons.h"
 #include "loops.h"
 
 namespace mcggh {
@@ -50,5 +53,14 @@ double dsigmaLO_dcosth(const HiggsCoupl &c, const double costh,
     const double beta = std::sqrt(1 - thres / s);
 
     return dsigmaLO_dt(c, costh, alphas) * beta * s / 2;
+}
+
+double dsigma(std::shared_ptr<LHAPDF::PDF> pdf, const InitGluon &glu,
+              const HiggsCoupl &c, const double alphas, const double mu,
+              const double costh) {
+    const double x1 = glu.x1(), x2 = glu.x2();
+    const double sigma = pdf->xfxQ(21, x1, mu) * pdf->xfxQ(21, x2, mu) *
+                         dsigmaLO_dcosth(c, costh, alphas);
+    return sigma / (x1 * x2);
 }
 }  // namespace mcggh

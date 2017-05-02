@@ -9,7 +9,10 @@
 #ifndef SRC_SIGMA_GGHH_H_
 #define SRC_SIGMA_GGHH_H_
 
+#include <memory>
+#include "LHAPDF/LHAPDF.h"
 #include "couplings.h"
+#include "gluons.h"
 
 namespace mcggh {
 /** Eq.(13) of arXiv:hep-ph/9603205
@@ -21,6 +24,10 @@ double dsigmaLO_dt(const HiggsCoupl &c, const double costh,
 
 double dsigmaLO_dcosth(const HiggsCoupl &c, const double costh,
                        const double alphas);
+
+double dsigma(std::shared_ptr<LHAPDF::PDF> pdf, const InitGluon &glu,
+              const HiggsCoupl &c, const double alphas, const double mu,
+              const double costh);
 }  // namespace mcggh
 
 #endif  // SRC_SIGMA_GGHH_H_

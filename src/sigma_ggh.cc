@@ -10,6 +10,7 @@
 #include <cmath>
 #include <complex>
 #include <memory>
+#include "LHAPDF/LHAPDF.h"
 #include "constants.h"
 #include "loops.h"
 
