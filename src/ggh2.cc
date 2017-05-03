@@ -57,12 +57,13 @@ int main(int argc, char *argv[]) {
 
         double rho_val = mcggh::rhoValue(rho);
         double shat = rho.shat(rho_val);
-        double mu = std::sqrt(shat);
-        mcggh::InitGluon glu(s, shat);
-        double alphas = pdf->alphasQ(mu);
 
         mcggh::HiggsCoupl c(shat, mH, KLAMBDA, KYT, KYB, GHHTT, GHHBB);
         double costh = mcggh::costh(DELTATH);
+
+        double mu = std::sqrt(shat);
+        mcggh::InitGluon glu(s, shat);
+        double alphas = pdf->alphasQ(mu);
 
         double w = mcggh::dsigma(pdf, glu, c, alphas, mu, costh) * DELTATH *
                    rho.delta() * glu.delta_y() * rho.jacobian(rho_val);
@@ -79,6 +80,6 @@ int main(int argc, char *argv[]) {
     const double error = std::sqrt(variance / N);
 
     std::cout << "-- Done integrating.\n";
-    std::cout << "-- Total cross section = " << sigma * PBCONV << " +- "
-              << error * PBCONV << " pb\n";
+    std::cout << "-- Total cross section = " << sigma * FBCONV << " +- "
+              << error * FBCONV << " fb\n";
 }

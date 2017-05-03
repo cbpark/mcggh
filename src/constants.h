@@ -9,6 +9,8 @@
 #ifndef SRC_CONSTANTS_H_
 #define SRC_CONSTANTS_H_
 
+#include <cmath>
+
 /** top quark mass */
 const double MT = 173.0;
 
@@ -20,6 +22,11 @@ const double MZ = 91.188;
 
 /** Fermi constant */
 const double GF = 1.16639e-5;
+
+const double SQRT2 = std::sqrt(2);
+
+/** VEV of Higgs field */
+const double VEW = 1.0 / std::sqrt(SQRT2 * GF);
 
 /** alpha_s (MZ) */
 const double ALPHAS = 0.118;

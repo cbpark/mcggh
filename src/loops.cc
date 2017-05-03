@@ -12,7 +12,6 @@
 #include "clooptools.h"
 #include "constants.h"
 #include "kinematics.h"
-#include "mandelstam.h"
 
 using std::complex;
 
@@ -33,20 +32,19 @@ complex<double> fTriangle(const double tau) {
 
 void LoopParams::init(const double s, const double mh, const double mq,
                       const double costh) {
-    const STU stu(s, mh, costh);
-    mQ2_ = mq * mq;
-    s_ = stu.s() / mQ2_, t_ = stu.t() / mQ2_, u_ = stu.u() / mQ2_;
-
-    const double mc2 = mh * mh, md2 = mh * mh;
-    rhoc_ = mc2 / mQ2_, rhod_ = md2 / mQ2_;
-    t1_ = t_ - rhoc_, u1_ = u_ - rhoc_;
-    t2_ = t_ - rhod_, u2_ = u_ - rhod_;
-
     const CM22 cm22(s, mh, costh);
     const FourMomentum pa = cm22.pa(), pb = cm22.pb();
     const FourMomentum pc = -cm22.pc(), pd = -cm22.pd();  // all incoming
     const double pa2 = pa.mag2(), pb2 = pb.mag2(), pc2 = pc.mag2(),
                  pd2 = pd.mag2();
+
+    mQ2_ = mq * mq;
+    s_ = s / mQ2_, t_ = (pc + pa).mag2() / mQ2_, u_ = (pc + pb).mag2() / mQ2_;
+
+    const double mc2 = mh * mh, md2 = mh * mh;
+    rhoc_ = mc2 / mQ2_, rhod_ = md2 / mQ2_;
+    t1_ = t_ - rhoc_, u1_ = u_ - rhoc_;
+    t2_ = t_ - rhod_, u2_ = u_ - rhod_;
 
     Cab_ = C0(pa2, pb2, (pa + pb).mag2(), mQ2_, mQ2_, mQ2_);
     Cac_ = C0(pa2, pc2, (pa + pc).mag2(), mQ2_, mQ2_, mQ2_);

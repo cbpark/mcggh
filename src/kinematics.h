@@ -37,6 +37,14 @@ public:
         return lhs;
     }
 
+    friend FourMomentum operator-(FourMomentum lhs, const FourMomentum &rhs) {
+        lhs.e_ -= rhs.e_;
+        lhs.px_ -= rhs.px_;
+        lhs.py_ -= rhs.py_;
+        lhs.pz_ -= rhs.pz_;
+        return lhs;
+    }
+
     friend std::ostream &operator<<(std::ostream &os, const FourMomentum &p);
 };
 

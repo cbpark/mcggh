@@ -14,17 +14,15 @@ namespace mcggh {
 void HiggsCoupl::init(const double xi_lambda, const double xi_t,
                       const double xi_b, const double ghhtt,
                       const double ghhbb) {
-    const double sqrt2 = std::sqrt(2);
-    const double v = 1.0 / std::sqrt(sqrt2 * GF);
     const double mh2 = mh_ * mh_;
-    const double lambda = xi_lambda * 3.0 * mh2 / v;
-    const double yt = xi_t * sqrt2 * MT / v;
-    const double yb = xi_b * sqrt2 * MB / v;
+    const double lambda = xi_lambda * 3.0 * mh2 / VEW;
+    const double yt = xi_t * SQRT2 * MT / VEW;
+    const double yb = xi_b * SQRT2 * MB / VEW;
     const double prop = 1.0 / (s_ - mh2);
 
-    ctri_t_ = lambda * prop * yt / sqrt2 + ghhtt;
+    ctri_t_ = lambda * prop * yt / SQRT2 + ghhtt;
     cbox_t_ = yt * yt / 2.0;
-    ctri_b_ = lambda * prop * yb / sqrt2 + ghhbb;
+    ctri_b_ = lambda * prop * yb / SQRT2 + ghhbb;
     cbox_b_ = yb * yb / 2.0;
 }
 }  // namespace mcggh
