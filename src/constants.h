@@ -29,4 +29,10 @@ const double PI = 3.141592653589793238463;
 /** conversion factor GeV^-2 -> pb */
 const double PBCONV = 3.893793656e8;
 
+/** conversion factor GeV^-2 -> fb */
+const double FBCONV = PBCONV * 1000;
+
+/** range of costh. 1 - (-1) = 2. */
+const double DELTATH = 2;
+
 #endif  // SRC_CONSTANTS_H_

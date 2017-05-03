@@ -52,7 +52,7 @@ int main(int argc, char *argv[]) {
         double rho_val = mcggh::rhoValue(rho);
         double shat = rho.shat(rho_val);
         mcggh::InitGluon glu(s, shat);
-        double w = mcggh::dsigma(pdf, glu, alphas, mu, mH, gammaH) *
+        double w = mcggh::dsigma(pdf, std::move(glu), alphas, mu, mH, gammaH) *
                    rho.delta() * glu.delta_y() * rho.jacobian(rho_val);
         sum_w += w;
         sum_w_sq += w * w;

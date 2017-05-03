@@ -10,12 +10,16 @@
 #define SRC_UTILS_H_
 
 #include <iostream>
+#include "constants.h"
 
 namespace mcggh {
 inline void printProgress(const int i, const int N) {
     std::cout << "progress: " << i * 100.0 / N << "%\r" << std::flush;
 }
+
 double getRandom();
+
+inline double costh(const double delta) { return -1.0 + getRandom() * delta; }
 }  // namespace mcggh
 
 #endif  // SRC_UTILS_H_

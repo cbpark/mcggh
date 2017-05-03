@@ -12,6 +12,7 @@
 #include <memory>
 #include "LHAPDF/LHAPDF.h"
 #include "constants.h"
+#include "gluons.h"
 #include "loops.h"
 
 namespace mcggh {
