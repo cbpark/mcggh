@@ -29,8 +29,8 @@ int main(int argc, char *argv[]) {
 
     const double eCM = std::atof(argv[1]);
     const double mH = std::atof(argv[2]);
-    std::cout << "* p p --> g g --> H (ECM = " << eCM << " GeV, MH = " << mH
-              << " GeV)\n";
+    std::cout << "* p p --> g g --> h (ECM = " << eCM / 1000.0
+              << " TeV, MH = " << mH << " GeV)\n";
 
     const double s = eCM * eCM;
     // the result seems to be not much sensitive to Gamma_H.

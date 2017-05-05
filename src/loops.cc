@@ -67,9 +67,9 @@ void LoopParams::init(const CM22 &k) {
 }
 
 complex<double> fBox(const LoopParams &p) {
-    const double s2 = p.s_ * p.s_;
-    if (s2 <= 0) { return complex<double>(0, 0); }
+    if (p.s_ <= 0) { return complex<double>(0, 0); }
 
+    const double s2 = p.s_ * p.s_;
     const double rho8 = p.rhoc_ + p.rhod_ - 8;
     auto box = complex<double>(4 * p.s_, 0) + 8 * p.s_ * p.mQ2_ * p.Cab_;
     box += -2 * p.s_ * (p.s_ + rho8) * p.mQ2_ * p.mQ2_ *
