@@ -10,7 +10,6 @@
 #define SRC_GLUONS_H_
 
 #include <cmath>
-#include "utils.h"
 
 namespace mcggh {
 class InitGluon {
@@ -23,16 +22,16 @@ public:
     InitGluon() = delete;
     InitGluon(const double s, const double shat)
         : shat_(shat), ymax_(-0.5 * std::log(shat_ / s)) {
-        const double y = (2 * getRandom() - 1.0) * ymax_;
-        const double tau = shat_ / s;
-        x1_ = std::sqrt(tau) * std::exp(y);
-        x2_ = std::sqrt(tau) * std::exp(-y);
+        init(s);
     }
 
     double x1() const { return x1_; }
     double x2() const { return x2_; }
     double shat() const { return shat_; }
     double delta_y() const { return 2 * ymax_; }
+
+private:
+    void init(const double s);
 };
 }  // namespace mcggh
 
