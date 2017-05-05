@@ -7,10 +7,13 @@
  */
 
 #include <cmath>
+#include <fstream>
 #include <iostream>
+#include <streambuf>
 #include "breit_wigner.h"
 #include "constants.h"
 #include "couplings.h"
+#include "ggh2_result.h"
 #include "kinematics.h"
 #include "pdf.h"
 #include "sigma_gghh.h"
@@ -27,9 +30,9 @@ const double GHHBB = 0.0;
 
 int main(int argc, char *argv[]) {
     const char appname[] = "ggh2";
-    if (argc != 4) {
+    if (argc < 4 || argc > 5) {
         std::cerr << "Usage: " << appname
-                  << " <ECM in GeV> <MH in GeV> <nevent>\n";
+                  << " <ECM in GeV> <MH in GeV> <nevent> [output]\n";
         return 1;
     }
 
@@ -48,6 +51,7 @@ int main(int argc, char *argv[]) {
     auto pdf = mcggh::mkPdf(PDFNAME);
 
     double sum_w = 0, sum_w_sq = 0;  // for the variance
+    double w_max = 0;
     std::cout << "-- Integrating for cross section ...\n";
     for (int i = 0; i != N; ++i) {
         mcggh::printProgress(i, N);
@@ -67,6 +71,7 @@ int main(int argc, char *argv[]) {
 
         sum_w += w;
         sum_w_sq += w * w;
+        if (w > w_max) { w_max = w; }
     }
 
     // cross section
@@ -79,4 +84,53 @@ int main(int argc, char *argv[]) {
     std::cout << "-- Done integrating.\n";
     std::cout << "-- Total cross section = " << sigma * FBCONV << " +- "
               << error * FBCONV << " fb\n";
+
+    // prepare output
+    std::streambuf *buf;
+    std::ofstream of;
+    const bool has_output = argc == 5;
+    if (has_output) {
+        of.open(argv[4]);
+        buf = of.rdbuf();
+    } else {
+        buf = std::cout.rdbuf();
+    }
+    std::ostream out(buf);
+
+    std::cout << "-- Generating events ...\n";
+    const int nev = std::atoi(argv[3]);
+    int iev = 0;  // counter for event generation
+    while (iev < nev) {
+        mcggh::printProgress(iev, nev);
+
+        double rho_val = mcggh::rhoValue(rho);
+        double shat = rho.shat(rho_val);
+
+        mcggh::HiggsCoupl c(shat, mH, KLAMBDA, KYT, KYB, GHHTT, GHHBB);
+        mcggh::CM22 k(shat, mH, mcggh::costh(DELTATH));
+
+        double mu = k.mhh();
+        mcggh::InitGluon glu(s, shat);
+        double alphas = pdf->alphasQ(mu);
+
+        double w = mcggh::dsigma(pdf, glu, c, k, mu, alphas) * DELTATH *
+                   rho.delta() * glu.delta_y() * rho.jacobian(rho_val);
+        double prob = w / w_max;
+
+        // accept the event if the random number is less than the probability of
+        // the phase space point
+        double r = mcggh::getRandom();
+        if (r < prob) {
+            ++iev;
+            mcggh::Result r(k.mhh(), k.pT());
+            out << r << '\n';
+        }
+    }
+
+    std::cout << "-- Done. ";
+    if (has_output) {
+        std::cout << "The output has been saved to `" << argv[4] << "'\n";
+    } else {
+        std::cout << "          \n";
+    }
 }
