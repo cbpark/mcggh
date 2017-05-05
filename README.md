@@ -13,3 +13,9 @@ lhapdf install NNPDF23_lo_as_0130_qed
 ```
 
 * [LoopTools](http://www.feynarts.de/looptools/).
+
+## References
+
+* [arXiv:hep-ph/9504378](https://arxiv.org/abs/hep-ph/9504378) (pp --> H),
+* [arXiv:hep-ph/9603205](https://arxiv.org/abs/hep-ph/9603205) (pp --> H H),
+* [arXiv:1405.7040](https://arxiv.org/abs/1405.7040) (pp --> H H).
