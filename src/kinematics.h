@@ -26,7 +26,7 @@ public:
     double mag2() const { return e_ * e_ - px_ * px_ - py_ * py_ - pz_ * pz_; }
 
     FourMomentum operator-() const {
-        return FourMomentum(e_, -px_, -py_, -pz_);
+        return FourMomentum(-e_, -px_, -py_, -pz_);
     }
 
     friend FourMomentum operator+(FourMomentum lhs, const FourMomentum &rhs) {

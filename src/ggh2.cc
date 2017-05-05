@@ -16,7 +16,7 @@
 #include "sigma_gghh.h"
 #include "utils.h"
 
-const int N = 100000;
+const int N = 10000;
 const char PDFNAME[] = "NNPDF23_lo_as_0130_qed";
 
 const double KLAMBDA = 1.0;
