@@ -14,7 +14,7 @@ namespace mcggh {
 void HiggsCoupl::init(const double xi_lambda, const double xi_t,
                       const double xi_b, const double ghhtt,
                       const double ghhbb) {
-    const double mh2 = mh_ * mh_, v2 = VEW * VEW;
+    const double mh2 = mh_ * mh_;
     // Higgs trilinear coupling
     const double lambda = xi_lambda * 3.0 * mh2 / VEW;
     const double yt = xi_t * SQRT2 * MT / VEW;  // top Yukawa
@@ -23,9 +23,9 @@ void HiggsCoupl::init(const double xi_lambda, const double xi_t,
     const double prop = 1.0 / (s_ - mh2);
 
     // See Eqs.(1) and (2) of arXiv:1405.7040
-    ctri_t_ = (lambda * prop * yt / SQRT2 + ghhtt) * v2 / MT;
-    cbox_t_ = (yt * yt / 2) * v2 / (MT * MT);
-    ctri_t_ = (lambda * prop * yb / SQRT2 + ghhbb) * v2 / MB;
-    cbox_t_ = (yb * yb / 2) * v2 / (MB * MB);
+    ctri_t_ = (lambda * prop * yt / SQRT2 + ghhtt) * VEW2 / MT;
+    cbox_t_ = (yt * yt / 2) * VEW2 / MT2;
+    ctri_t_ = (lambda * prop * yb / SQRT2 + ghhbb) * VEW2 / MB;
+    cbox_t_ = (yb * yb / 2) * VEW2 / MB2;
 }
 }  // namespace mcggh

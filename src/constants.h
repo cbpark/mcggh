@@ -13,20 +13,24 @@
 
 /** top quark mass */
 const double MT = 173.0;
+const double MT2 = MT * MT;
 
 /** bottom quark mass */
 const double MB = 4.7;
+const double MB2 = MB * MB;
 
 /** Z boson mass */
 const double MZ = 91.188;
 
 /** Fermi constant */
 const double GF = 1.16639e-5;
+const double GF2 = GF * GF;
 
-const double SQRT2 = std::sqrt(2);
+const double SQRT2 = 1.4142135623730951;
 
 /** VEV of Higgs field */
 const double VEW = 1.0 / std::sqrt(SQRT2 * GF);
+const double VEW2 = VEW * VEW;
 
 /** alpha_s (MZ) */
 const double ALPHAS = 0.118;

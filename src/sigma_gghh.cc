@@ -19,8 +19,7 @@
 
 namespace mcggh {
 double dsigmaLO_dt(const HiggsCoupl &c, const CM22 &k, const double alphas) {
-    const double tau_t = 4.0 * MT * MT / k.shat(),
-                 tau_b = 4.0 * MB * MB / k.shat();
+    const double tau_t = 4.0 * MT2 / k.shat(), tau_b = 4.0 * MB2 / k.shat();
 
     // top quark loops
     LoopParams pars(k, MT);
@@ -39,7 +38,7 @@ double dsigmaLO_dt(const HiggsCoupl &c, const CM22 &k, const double alphas) {
     arg2 += c.box(QuarkType::BOTTOM) * box;
 
     const double loopfn = std::norm(arg1) + std::norm(arg2);
-    return GF * GF * alphas * alphas / (512 * std::pow(2 * PI, 3)) * loopfn;
+    return GF2 * alphas * alphas / (512 * std::pow(2 * PI, 3)) * loopfn;
 }
 
 double dsigmaLO_dcosth(const HiggsCoupl &c, const CM22 &k,
