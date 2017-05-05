@@ -1,6 +1,7 @@
 *.o
 bin
 lib
+data
 *.dat
 *.log
 *.out
