@@ -8,7 +8,6 @@
 
 #include "kinematics.h"
 #include <cmath>
-
 #include <ostream>
 
 namespace mcggh {
@@ -18,23 +17,29 @@ std::ostream &operator<<(std::ostream &os, const FourMomentum &p) {
     return os;
 }
 
-FourMomentum CM22::pa() const {
-    const double e = std::sqrt(s_) / 2;
-    return FourMomentum(e, 0, 0, e);
+void CM22::init() {
+    const double thres = 4 * mh2_;
+    if (thres > s_) {
+        beta_ = 0;
+    } else {
+        beta_ = std::sqrt(1 - thres / s_);
+    }
+
+    if (costh_ < -1 || costh_ > 1) {
+        sinth_ = -2;
+        pT_ = pL_ = -1.0e+12;
+    } else {
+        sinth_ = std::sqrt(1 - costh_ * costh_);
+        pT_ = e_ * beta_ * sinth_;
+        pL_ = e_ * beta_ * costh_;
+    }
 }
 
-FourMomentum CM22::pb() const {
-    const double e = std::sqrt(s_) / 2;
-    return FourMomentum(e, 0, 0, -e);
-}
+FourMomentum CM22::pa() const { return FourMomentum(e_, 0, 0, e_); }
 
-FourMomentum CM22::pc() const {
-    const double e = std::sqrt(s_) / 2;
-    return FourMomentum(e, e * beta_ * sinth_, 0, e * beta_ * costh_);
-}
+FourMomentum CM22::pb() const { return FourMomentum(e_, 0, 0, -e_); }
 
-FourMomentum CM22::pd() const {
-    const double e = std::sqrt(s_) / 2;
-    return FourMomentum(e, -e * beta_ * sinth_, 0, -e * beta_ * costh_);
-}
+FourMomentum CM22::pc() const { return FourMomentum(e_, pT_, 0, pL_); }
+
+FourMomentum CM22::pd() const { return FourMomentum(e_, -pT_, 0, -pL_); }
 }  // namespace mcggh

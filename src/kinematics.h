@@ -57,32 +57,30 @@ public:
  */
 class CM22 {
 private:
-    double s_, mh2_;
+    double s_, mh2_, e_;
     double costh_, sinth_;
     double beta_;
+    double pT_, pL_;
 
 public:
     CM22() = delete;
     CM22(const double s, const double mh, const double costh)
-        : s_(s), mh2_(mh*mh), costh_(costh) {
-        if (costh_ < -1 || costh_ > 1) {
-            sinth_ = -2;
-        } else {
-            sinth_ = std::sqrt(1 - costh_ * costh_);
-        }
-
-        const double thres = 4 * mh2_;
-        if (thres > s_) {
-            beta_ = 0;
-        } else {
-            beta_ = std::sqrt(1 - thres / s_);
-        }
+        : s_(s), mh2_(mh * mh), e_(std::sqrt(s) / 2.0), costh_(costh) {
+        init();
     }
+
+    double shat() const { return s_; }
+    double mhh() const { return std::sqrt(s_); }
+    double mh2() const { return mh2_; }
+    double pT() const { return std::abs(pT_); }
 
     FourMomentum pa() const;
     FourMomentum pb() const;
     FourMomentum pc() const;
     FourMomentum pd() const;
+
+private:
+    void init();
 };
 }  // namespace mcggh
 
