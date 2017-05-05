@@ -50,6 +50,8 @@ void LoopParams::init(const CM22 &k) {
     t1_ = t_ - rhoc_, u1_ = u_ - rhoc_;
     t2_ = t_ - rhod_, u2_ = u_ - rhod_;
 
+    ltini();  // initialize looptools
+
     Cab_ = C0(pa2, pb2, pab2, mQ2_, mQ2_, mQ2_);
     Cac_ = C0(pa2, pc2, pac2, mQ2_, mQ2_, mQ2_);
     Cbc_ = C0(pb2, pc2, pbc2, mQ2_, mQ2_, mQ2_);
@@ -60,6 +62,8 @@ void LoopParams::init(const CM22 &k) {
     Dabc_ = D0(pa2, pb2, pc2, pd2, pab2, pbc2, mQ2_, mQ2_, mQ2_, mQ2_);
     Dbac_ = D0(pb2, pa2, pc2, pd2, pab2, pac2, mQ2_, mQ2_, mQ2_, mQ2_);
     Dacb_ = D0(pa2, pc2, pb2, pd2, pac2, pbc2, mQ2_, mQ2_, mQ2_, mQ2_);
+
+    clearcache();  // remove all integrals from the cache
 }
 
 complex<double> fBox(const LoopParams &p) {

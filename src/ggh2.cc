@@ -9,7 +9,6 @@
 #include <cmath>
 #include <iostream>
 #include "breit_wigner.h"
-#include "clooptools.h"
 #include "constants.h"
 #include "couplings.h"
 #include "kinematics.h"
@@ -47,9 +46,6 @@ int main(int argc, char *argv[]) {
 
     // PDF from LHAPDF.
     auto pdf = mcggh::mkPdf(PDFNAME);
-
-    // for looptools
-    ltini();
 
     double sum_w = 0, sum_w_sq = 0;  // for the variance
     std::cout << "-- Integrating for cross section ...\n";
