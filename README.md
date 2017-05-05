@@ -1,5 +1,7 @@
 # MCGGH
 
+A parton-level Monte Carlo generator for Higgs production through gluon fusion process at hadron collider.
+
 ## Requirements
 
 * C++ compiler supporting C++14 features ([Clang](http://clang.llvm.org/cxx_status.html) > 3.4, [GCC](https://gcc.gnu.org/projects/cxx-status.html) > 4.9).
