@@ -10,6 +10,7 @@
 #define SRC_LOOPS_H_
 
 #include <complex>
+#include "kinematics.h"
 
 namespace mcggh {
 std::complex<double> fTriangle(const double tau);
@@ -26,17 +27,13 @@ private:
 
 public:
     LoopParams() = delete;
-    LoopParams(const double s, const double mh, const double mq,
-               const double costh) {
-        init(s, mh, mq, costh);
-    }
+    LoopParams(const CM22 &k, const double mq) : mQ2_(mq * mq) { init(k); }
 
     friend std::complex<double> fBox(const LoopParams &par);
     friend std::complex<double> gBox(const LoopParams &par);
 
 private:
-    void init(const double s, const double mh, const double mq,
-              const double costh);
+    void init(const CM22 &k);
 };
 
 std::complex<double> fBox(const LoopParams &par);

@@ -30,11 +30,9 @@ complex<double> fTriangle(const double tau) {
     return tau * (complex<double>(1.0, 0) + (1 - tau) * ftau(tau));
 }
 
-void LoopParams::init(const double s, const double mh, const double mq,
-                      const double costh) {
-    const CM22 cm22(s, mh, costh);
-    const FourMomentum pa = cm22.pa(), pb = cm22.pb();
-    const FourMomentum pc = -cm22.pc(), pd = -cm22.pd();  // all incoming
+void LoopParams::init(const CM22 &k) {
+    const FourMomentum pa = k.pa(), pb = k.pb();
+    const FourMomentum pc = -k.pc(), pd = -k.pd();  // all incoming
     const double pa2 = pa.mag2(), pb2 = pb.mag2();
     const double pc2 = pc.mag2(), pd2 = pd.mag2();
 
@@ -45,10 +43,9 @@ void LoopParams::init(const double s, const double mh, const double mq,
     const double pbd2 = (pb + pd).mag2();
     const double pcd2 = (pc + pd).mag2();
 
-    mQ2_ = mq * mq;
-    s_ = s / mQ2_, t_ = pac2 / mQ2_, u_ = pbc2 / mQ2_;
+    s_ = k.shat() / mQ2_, t_ = pac2 / mQ2_, u_ = pbc2 / mQ2_;
 
-    const double mc2 = mh * mh, md2 = mh * mh;
+    const double mc2 = k.mh2(), md2 = k.mh2();
     rhoc_ = mc2 / mQ2_, rhod_ = md2 / mQ2_;
     t1_ = t_ - rhoc_, u1_ = u_ - rhoc_;
     t2_ = t_ - rhod_, u2_ = u_ - rhod_;

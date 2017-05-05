@@ -13,21 +13,20 @@
 #include "LHAPDF/LHAPDF.h"
 #include "couplings.h"
 #include "gluons.h"
+#include "kinematics.h"
 
 namespace mcggh {
 /** Eq.(13) of arXiv:hep-ph/9603205
  *
  *  both top and bottom quark loops are included
  */
-double dsigmaLO_dt(const HiggsCoupl &c, const double costh,
-                   const double alphas);
+double dsigmaLO_dt(const HiggsCoupl &c, const CM22 &k, const double alphas);
 
-double dsigmaLO_dcosth(const HiggsCoupl &c, const double costh,
-                       const double alphas);
+double dsigmaLO_dcosth(const HiggsCoupl &c, const CM22 &k, const double alphas);
 
 double dsigma(std::shared_ptr<LHAPDF::PDF> pdf, const InitGluon &glu,
-              const HiggsCoupl &c, const double alphas, const double mu,
-              const double costh);
+              const HiggsCoupl &c, const CM22 &k, const double mu,
+              const double alphas);
 }  // namespace mcggh
 
 #endif  // SRC_SIGMA_GGHH_H_

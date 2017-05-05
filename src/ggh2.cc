@@ -12,6 +12,7 @@
 #include "clooptools.h"
 #include "constants.h"
 #include "couplings.h"
+#include "kinematics.h"
 #include "pdf.h"
 #include "sigma_gghh.h"
 #include "utils.h"
@@ -59,13 +60,13 @@ int main(int argc, char *argv[]) {
         double shat = rho.shat(rho_val);
 
         mcggh::HiggsCoupl c(shat, mH, KLAMBDA, KYT, KYB, GHHTT, GHHBB);
-        double costh = mcggh::costh(DELTATH);
+        mcggh::CM22 k(shat, mH, mcggh::costh(DELTATH));
 
-        double mu = std::sqrt(shat);
+        double mu = k.mhh();
         mcggh::InitGluon glu(s, shat);
         double alphas = pdf->alphasQ(mu);
 
-        double w = mcggh::dsigma(pdf, glu, c, alphas, mu, costh) * DELTATH *
+        double w = mcggh::dsigma(pdf, glu, c, k, mu, alphas) * DELTATH *
                    rho.delta() * glu.delta_y() * rho.jacobian(rho_val);
 
         sum_w += w;

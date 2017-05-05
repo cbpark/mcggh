@@ -27,10 +27,7 @@ public:
         init(xi_lambda, xi_t, xi_b, ghhtt, ghhbb);
     }
 
-    double shat() const { return s_; }
-    double mh() const { return mh_; }
-
-    double triangle(const QuarkType& typ) const {
+    double triangle(const QuarkType &typ) const {
         if (typ == QuarkType::TOP) {
             return ctri_t_;
         } else {
@@ -38,7 +35,7 @@ public:
         }
     }
 
-    double box(const QuarkType& typ) const {
+    double box(const QuarkType &typ) const {
         if (typ == QuarkType::TOP) {
             return cbox_t_;
         } else {
