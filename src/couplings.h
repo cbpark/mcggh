@@ -12,15 +12,15 @@
 namespace mcggh {
 enum class QuarkType { TOP, BOTTOM };
 
-class HiggsCoupl {
+class HHCoupling {
 private:
     double s_, mh_;
     double ctri_t_, cbox_t_;
     double ctri_b_, cbox_b_;
 
 public:
-    HiggsCoupl() = delete;
-    HiggsCoupl(const double s, const double mh, const double xi_lambda,
+    HHCoupling() = delete;
+    HHCoupling(const double s, const double mh, const double xi_lambda,
                const double xi_t, const double xi_b, const double ghhtt,
                const double ghhbb)
         : s_(s), mh_(mh) {
@@ -30,17 +30,19 @@ public:
     double triangle(const QuarkType &typ) const {
         if (typ == QuarkType::TOP) {
             return ctri_t_;
-        } else {
+        } else if (typ == QuarkType::BOTTOM) {
             return ctri_b_;
         }
+        return 0;
     }
 
     double box(const QuarkType &typ) const {
         if (typ == QuarkType::TOP) {
             return cbox_t_;
-        } else {
+        } else if (typ == QuarkType::BOTTOM) {
             return cbox_b_;
         }
+        return 0;
     }
 
 private:

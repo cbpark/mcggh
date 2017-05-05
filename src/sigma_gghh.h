@@ -20,12 +20,12 @@ namespace mcggh {
  *
  *  both top and bottom quark loops are included
  */
-double dsigmaLO_dt(const HiggsCoupl &c, const CM22 &k, const double alphas);
+double dsigmaLO_dt(const HHCoupling &c, const CM22 &k, const double alphas);
 
-double dsigmaLO_dcosth(const HiggsCoupl &c, const CM22 &k, const double alphas);
+double dsigmaLO_dcosth(const HHCoupling &c, const CM22 &k, const double alphas);
 
 double dsigma(std::shared_ptr<LHAPDF::PDF> pdf, const InitGluon &glu,
-              const HiggsCoupl &c, const CM22 &k, const double mu,
+              const HHCoupling &c, const CM22 &k, const double mu,
               const double alphas);
 }  // namespace mcggh
 

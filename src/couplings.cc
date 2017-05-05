@@ -11,7 +11,7 @@
 #include "constants.h"
 
 namespace mcggh {
-void HiggsCoupl::init(const double xi_lambda, const double xi_t,
+void HHCoupling::init(const double xi_lambda, const double xi_t,
                       const double xi_b, const double ghhtt,
                       const double ghhbb) {
     const double mh2 = mh_ * mh_;

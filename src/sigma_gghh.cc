@@ -18,7 +18,7 @@
 #include "loops.h"
 
 namespace mcggh {
-double dsigmaLO_dt(const HiggsCoupl &c, const CM22 &k, const double alphas) {
+double dsigmaLO_dt(const HHCoupling &c, const CM22 &k, const double alphas) {
     const double tau_t = 4.0 * MT2 / k.shat(), tau_b = 4.0 * MB2 / k.shat();
 
     // top quark loops
@@ -41,7 +41,7 @@ double dsigmaLO_dt(const HiggsCoupl &c, const CM22 &k, const double alphas) {
     return GF2 * alphas * alphas / (512 * std::pow(2 * PI, 3)) * loopfn;
 }
 
-double dsigmaLO_dcosth(const HiggsCoupl &c, const CM22 &k,
+double dsigmaLO_dcosth(const HHCoupling &c, const CM22 &k,
                        const double alphas) {
     const double s = k.shat();
     if (s <= 0) { return 0; }
@@ -54,7 +54,7 @@ double dsigmaLO_dcosth(const HiggsCoupl &c, const CM22 &k,
 }
 
 double dsigma(std::shared_ptr<LHAPDF::PDF> pdf, const InitGluon &glu,
-              const HiggsCoupl &c, const CM22 &k, const double mu,
+              const HHCoupling &c, const CM22 &k, const double mu,
               const double alphas) {
     const double x1 = glu.x1(), x2 = glu.x2();
     const double sigma = pdf->xfxQ(21, x1, mu) * pdf->xfxQ(21, x2, mu) *

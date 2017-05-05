@@ -59,7 +59,7 @@ int main(int argc, char *argv[]) {
         double rho_val = mcggh::rhoValue(rho);
         double shat = rho.shat(rho_val);
 
-        mcggh::HiggsCoupl c(shat, mH, KLAMBDA, KYT, KYB, GHHTT, GHHBB);
+        mcggh::HHCoupling c(shat, mH, KLAMBDA, KYT, KYB, GHHTT, GHHBB);
         mcggh::CM22 k(shat, mH, mcggh::costh(DELTATH));
 
         double mu = k.mhh();
@@ -106,7 +106,7 @@ int main(int argc, char *argv[]) {
         double rho_val = mcggh::rhoValue(rho);
         double shat = rho.shat(rho_val);
 
-        mcggh::HiggsCoupl c(shat, mH, KLAMBDA, KYT, KYB, GHHTT, GHHBB);
+        mcggh::HHCoupling c(shat, mH, KLAMBDA, KYT, KYB, GHHTT, GHHBB);
         mcggh::CM22 k(shat, mH, mcggh::costh(DELTATH));
 
         double mu = k.mhh();
