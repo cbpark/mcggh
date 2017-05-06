@@ -59,3 +59,7 @@ Usage: ggh2 <ECM in GeV> <MH in GeV> [nevent] [output]
 * [arXiv:hep-ph/9504378](https://arxiv.org/abs/hep-ph/9504378) (pp --> h),
 * [arXiv:hep-ph/9603205](https://arxiv.org/abs/hep-ph/9603205) (pp --> hh),
 * [arXiv:1405.7040](https://arxiv.org/abs/1405.7040) (pp --> hh).
+
+## plot
+
+There are codes for making some histograms of generated event data in the `plot` directory. [ROOT](https://root.cern.ch/) is required to build them.
