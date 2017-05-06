@@ -16,12 +16,13 @@
 #include "sigma_ggh.h"
 #include "utils.h"
 
+const char appname[] = "ggh1";
+
 const int N = 4000000;
 const char PDFNAME[] = "NNPDF23_lo_as_0130_qed";
 // const char PDFNAME[] = "cteq6l1";
 
 int main(int argc, char *argv[]) {
-    const char appname[] = "ggh1";
     if (argc != 3) {
         std::cerr << "Usage: " << appname << " <ECM in GeV> <MH in GeV>\n";
         return 1;

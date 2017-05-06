@@ -19,7 +19,9 @@
 #include "sigma_gghh.h"
 #include "utils.h"
 
-const int N = 10000;
+const char appname[] = "ggh2";
+
+const int N = 100000;
 const char PDFNAME[] = "NNPDF23_lo_as_0130_qed";
 
 const double KLAMBDA = 1.0;
@@ -29,10 +31,9 @@ const double GHHTT = 0.0;
 const double GHHBB = 0.0;
 
 int main(int argc, char *argv[]) {
-    const char appname[] = "ggh2";
-    if (argc < 4 || argc > 5) {
+    if (argc < 3 || argc > 5) {
         std::cerr << "Usage: " << appname
-                  << " <ECM in GeV> <MH in GeV> <nevent> [output]\n";
+                  << " <ECM in GeV> <MH in GeV> [nevent] [output]\n";
         return 1;
     }
 
@@ -84,6 +85,9 @@ int main(int argc, char *argv[]) {
     std::cout << "-- Done integrating.\n";
     std::cout << "-- Total cross section = " << sigma * FBCONV << " +- "
               << error * FBCONV << " fb\n";
+
+    // if we want to calculate only the cross section, we've done.
+    if (argc == 3) { return 0; }
 
     // prepare output
     std::streambuf *buf;
