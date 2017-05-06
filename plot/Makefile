@@ -1,7 +1,7 @@
 SRCDIR   := src
 BINDIR   := bin
 CXXFLAGS := -g -O2 -Wall -Wextra -std=c++14 -pedantic -I$(SRCDIR)
-LDFLAGS  :=
+LDFLAGS  := -O2 -m64
 MKDIR    := mkdir -p
 RM       := rm -f
 UNAME    := $(shell uname -s)
