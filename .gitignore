@@ -1,4 +1,6 @@
 *.o
+*PATH
+*TAGS
 bin
 lib
 data
