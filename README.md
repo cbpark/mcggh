@@ -1,6 +1,6 @@
 # MCGGH
 
-A parton-level Monte Carlo generator for Higgs production through gluon fusion process at hadron collider.
+A parton-level Monte Carlo generator for Higgs production through gluon fusion process at hadron colliders with proton-proton collision.
 
 ## Requirements
 
@@ -62,4 +62,4 @@ Usage: ggh2 <ECM in GeV> <MH in GeV> [nevent] [output]
 
 ## plot
 
-There are codes for making some histograms of generated event data in the `plot` directory. [ROOT](https://root.cern.ch/) is required to build them.
+There are example codes for making some histograms using generated event data in the [`plot`](plot) directory. [ROOT](https://root.cern.ch/) is required to build them.
