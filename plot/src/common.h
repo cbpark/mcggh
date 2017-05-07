@@ -22,6 +22,8 @@ int failedToRead(const std::string &appname, const std::string &fname) {
     return 1;
 }
 
+void fillHist(std::unique_ptr<std::ifstream> fin, std::shared_ptr<TH1> hist);
+
 void setHist(std::shared_ptr<TH1> hist) {
     hist->GetXaxis()->CenterTitle();
     hist->GetYaxis()->CenterTitle();

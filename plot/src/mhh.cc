@@ -11,6 +11,7 @@
 #include <memory>
 #include <sstream>
 #include <string>
+#include <utility>
 #include "TCanvas.h"
 #include "TH1D.h"
 #include "TStyle.h"
@@ -24,8 +25,8 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    std::ifstream fin(argv[1]);
-    if (!fin.good()) { return failedToRead(appname, argv[1]); }
+    auto fin = std::make_unique<std::ifstream>(argv[1]);
+    if (!fin->good()) { return failedToRead(appname, argv[1]); }
 
     // Create the canvas.
     auto canvas = std::make_unique<TCanvas>("c", "", 0, 0, 600, 600);
@@ -38,8 +39,19 @@ int main(int argc, char *argv[]) {
     hist->SetXTitle("m_{hh} (GeV)");
     hist->SetYTitle("1 / #sigma d#sigma / dm_{hh}");
 
+    // Fill and draw histogram
+    fillHist(std::move(fin), hist);
+    hist->DrawNormalized();
+
+    auto cm_energy = mkText();
+    cm_energy->DrawLatex(0.7, 0.92, "#sqrt{s} = 13 TeV");
+
+    canvas->SaveAs(argv[2]);
+}
+
+void fillHist(std::unique_ptr<std::ifstream> fin, std::shared_ptr<TH1> hist) {
     std::string line;
-    while (std::getline(fin, line)) {
+    while (std::getline(*fin, line)) {
         if (line.front() == '#') { continue; }  // comment line
 
         std::istringstream iss(line);
@@ -48,11 +60,5 @@ int main(int argc, char *argv[]) {
 
         if (pT > 0) { hist->Fill(mhh); }
     }
-    fin.close();
-    hist->DrawNormalized();
-
-    auto cm_energy = mkText();
-    cm_energy->DrawLatex(0.7, 0.92, "#sqrt{s} = 13 TeV");
-
-    canvas->SaveAs(argv[2]);
+    fin->close();
 }
