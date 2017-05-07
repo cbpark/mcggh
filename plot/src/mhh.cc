@@ -17,30 +17,29 @@
 #include "TStyle.h"
 #include "common.h"
 
+using namespace std;
+
 const char appname[] = "mhh";
 
 int main(int argc, char *argv[]) {
-    if (argc != 3) {
-        std::cerr << "Usage: " << appname << " <input> <output>\n";
-        return 1;
-    }
+    if (argc != 3) { return howToUse(appname, "<input> <output>"); }
 
-    auto fin = std::make_unique<std::ifstream>(argv[1]);
+    auto fin = make_unique<ifstream>(argv[1]);
     if (!fin->good()) { return failedToRead(appname, argv[1]); }
 
     // Create the canvas.
-    auto canvas = std::make_unique<TCanvas>("c", "", 0, 0, 600, 600);
+    auto canvas = make_unique<TCanvas>("c", "", 0, 0, 600, 600);
     canvas->SetTicks();
     gStyle->SetOptStat(0);  // no stat panel
 
     // Histogram.
-    auto hist = std::make_shared<TH1D>("h", "", 75, 250, 1000);
+    auto hist = make_shared<TH1D>("h", "", 75, 250, 1000);
     setHist(hist);
     hist->SetXTitle("m_{hh} (GeV)");
     hist->SetYTitle("1 / #sigma d#sigma / dm_{hh}");
 
     // Fill and draw histogram
-    fillHist(std::move(fin), hist);
+    fillHist(move(fin), hist);
     hist->DrawNormalized();
 
     auto cm_energy = mkText();
@@ -49,12 +48,12 @@ int main(int argc, char *argv[]) {
     canvas->SaveAs(argv[2]);
 }
 
-void fillHist(std::unique_ptr<std::ifstream> fin, std::shared_ptr<TH1> hist) {
-    std::string line;
-    while (std::getline(*fin, line)) {
+void fillHist(unique_ptr<ifstream> fin, shared_ptr<TH1> hist) {
+    string line;
+    while (getline(*fin, line)) {
         if (line.front() == '#') { continue; }  // comment line
 
-        std::istringstream iss(line);
+        istringstream iss(line);
         double mhh, pT;
         if (!(iss >> mhh >> pT)) { break; }
 

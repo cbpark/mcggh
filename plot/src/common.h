@@ -18,6 +18,11 @@
 
 const int FONT = 132;
 
+int howToUse(const std::string &appname, const std::string &usage) {
+    std::cerr << "Usage: " << appname << " " + usage << '\n';
+    return 1;
+}
+
 int failedToRead(const std::string &appname, const std::string &fname) {
     std::cerr << appname << ": failed to read `" << fname << "'.\n";
     return 1;
