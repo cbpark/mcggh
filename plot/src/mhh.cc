@@ -13,6 +13,7 @@
 #include <string>
 #include "TCanvas.h"
 #include "TH1D.h"
+#include "TStyle.h"
 #include "common.h"
 
 const char appname[] = "mhh";
@@ -29,21 +30,29 @@ int main(int argc, char *argv[]) {
     // Create the canvas.
     auto canvas = std::make_unique<TCanvas>("c", "", 0, 0, 600, 600);
     canvas->SetTicks();
+    gStyle->SetOptStat(0);  // no stat panel
 
     // Histogram.
-    auto hist = std::make_unique<TH1D>("h", "", 75, 250, 1000);
+    auto hist = std::make_shared<TH1D>("h", "", 75, 250, 1000);
+    setHist(hist);
+    hist->SetXTitle("m_{hh} (GeV)");
+    hist->SetYTitle("1 / #sigma d#sigma / dm_{hh}");
 
     std::string line;
     while (std::getline(fin, line)) {
-        if (line.front() == '#') { continue; }
+        if (line.front() == '#') { continue; }  // comment line
 
         std::istringstream iss(line);
-        double mhh, tmp;
-        if (!(iss >> mhh >> tmp)) { break; }
-        hist->Fill(mhh);
+        double mhh, pT;
+        if (!(iss >> mhh >> pT)) { break; }
+
+        if (pT > 0) { hist->Fill(mhh); }
     }
     fin.close();
+    hist->DrawNormalized();
 
-    hist->Draw();
+    auto cm_energy = mkText();
+    cm_energy->DrawLatex(0.7, 0.92, "#sqrt{s} = 13 TeV");
+
     canvas->SaveAs(argv[2]);
 }
