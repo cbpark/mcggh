@@ -1,6 +1,6 @@
 # MCGGH
 
-A parton-level Monte Carlo generator for Higgs production through gluon fusion process at hadron colliders with proton-proton collision.
+A parton-level Monte Carlo generator for Higgs production through gluon fusion process at hadron colliders.
 
 ## Requirements
 
@@ -12,7 +12,7 @@ A parton-level Monte Carlo generator for Higgs production through gluon fusion p
 lhapdf install NNPDF23_lo_as_0130_qed
 ```
 
-* [LoopTools](http://www.feynarts.de/looptools/). Check that `f++` is in `$PATH`.
+* [LoopTools](http://www.feynarts.de/looptools/). Check that `f++` is in `$PATH` and edit the `LT` variable in [`Makefile`](Makefile).
 
 ## Usage and example outputs
 
