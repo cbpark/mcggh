@@ -12,7 +12,7 @@ A parton-level Monte Carlo generator for Higgs production through gluon fusion p
 lhapdf install NNPDF23_lo_as_0130_qed
 ```
 
-* [LoopTools](http://www.feynarts.de/looptools/). Check that `f++` is in `$PATH` and edit the `LT` variable in [`Makefile`](Makefile).
+* [LoopTools](http://www.feynarts.de/looptools/). Check that `f++` is in `$PATH` and edit the `LT` variable in [`Makefile`](Makefile). If you are in [ArchLinux](https://www.archlinux.org), you can install it via [AUR](https://aur.archlinux.org/packages/?O=0&K=looptools). For other Linux distribution, see the `build` function in [looptools](https://github.com/cbpark/archlinux-packages/blob/master/aur/looptools/PKGBUILD).
 
 ## Usage and example outputs
 
