@@ -35,7 +35,6 @@ void setHist(std::shared_ptr<TH1> hist) {
     hist->GetYaxis()->CenterTitle();
     hist->SetTitle("");
     hist->SetTitleOffset(0.9, "xy");
-    hist->SetLineColor(kBlack);
     hist->SetLineWidth(2);
     hist->SetTitleSize(1.4 * hist->GetLabelSize(), "xy");
     hist->SetTitleFont(FONT, "xy");

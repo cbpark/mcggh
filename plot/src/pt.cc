@@ -35,6 +35,7 @@ int main(int argc, char *argv[]) {
     // Histogram.
     auto hist = make_shared<TH1D>("h", "", 70, 0, 700);
     setHist(hist);
+    hist->SetLineColor(kBlack);
     hist->SetXTitle("p_{T} (GeV)");
     hist->SetYTitle("1 / #sigma d#sigma / dp_{T}");
 
