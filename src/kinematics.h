@@ -23,7 +23,7 @@ public:
                  const double pz)
         : e_(e), px_(px), py_(py), pz_(pz) {}
 
-    double mag2() const { return e_ * e_ - px_ * px_ - py_ * py_ - pz_ * pz_; }
+    double m2() const { return e_ * e_ - px_ * px_ - py_ * py_ - pz_ * pz_; }
 
     FourMomentum operator-() const {
         return FourMomentum(-e_, -px_, -py_, -pz_);

@@ -33,15 +33,14 @@ complex<double> fTriangle(const double tau) {
 void LoopParams::init(const CM22 &k) {
     const FourMomentum pa = k.pa(), pb = k.pb();
     const FourMomentum pc = -k.pc(), pd = -k.pd();  // all incoming
-    const double pa2 = pa.mag2(), pb2 = pb.mag2();
-    const double pc2 = pc.mag2(), pd2 = pd.mag2();
+    const double pa2 = pa.m2(), pb2 = pb.m2(), pc2 = pc.m2(), pd2 = pd.m2();
 
-    const double pab2 = (pa + pb).mag2();
-    const double pac2 = (pa + pc).mag2();
-    const double pad2 = (pa + pd).mag2();
-    const double pbc2 = (pb + pc).mag2();
-    const double pbd2 = (pb + pd).mag2();
-    const double pcd2 = (pc + pd).mag2();
+    const double pab2 = (pa + pb).m2();
+    const double pac2 = (pa + pc).m2();
+    const double pad2 = (pa + pd).m2();
+    const double pbc2 = (pb + pc).m2();
+    const double pbd2 = (pb + pd).m2();
+    const double pcd2 = (pc + pd).m2();
 
     s_ = k.shat() / mQ2_, t_ = pac2 / mQ2_, u_ = pbc2 / mQ2_;
 
