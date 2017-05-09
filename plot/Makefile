@@ -10,7 +10,7 @@ ifeq ($(UNAME), Darwin)
 	CXXFLAGS += -stdlib=libc++
 endif
 
-EXE    := $(BINDIR)/mhh $(BINDIR)/pt
+EXE    := $(BINDIR)/mhh $(BINDIR)/mhh2 $(BINDIR)/pt $(BINDIR)/pt2
 EXESRC := $(patsubst $(BINDIR)/%,$(SRCDIR)/%.cc,$(EXE))
 EXEOBJ := $(EXESRC:.cc=.o)
 

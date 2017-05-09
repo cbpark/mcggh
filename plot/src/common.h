@@ -15,6 +15,7 @@
 #include <string>
 #include "TH1.h"
 #include "TLatex.h"
+#include "TLegend.h"
 
 const int FONT = 132;
 
@@ -47,6 +48,15 @@ std::shared_ptr<TLatex> mkText() {
     text->SetTextSize(0.9 * text->GetTextSize());
     text->SetNDC();
     return text;
+}
+
+std::shared_ptr<TLegend> mkLegend(const double x1, const double y1,
+                                  const double x2, const double y2) {
+    auto legend = std::make_shared<TLegend>(x1, y1, x2, y2);
+    legend->SetTextFont(FONT);
+    legend->SetFillStyle(0);
+    legend->SetBorderSize(0);
+    return legend;
 }
 
 #endif  // PLOT_SRC_COMMON_H_
