@@ -6,7 +6,7 @@ A parton-level Monte Carlo generator for Higgs production through gluon fusion p
 
 * C++ compiler supporting C++14 features ([Clang](http://clang.llvm.org/cxx_status.html) > 3.4, [GCC](https://gcc.gnu.org/projects/cxx-status.html) > 4.9),
 
-* [LHAPDF 6](http://lhapdf.hepforge.org/) and the `NNPDF23_lo_as_0130_qed` PDF data. The `NNPDF23_lo_as_0130_qed` data can be installed by
+* [LHAPDF 6](http://lhapdf.hepforge.org/) and the `NNPDF23_lo_as_0130_qed` PDF data. The latter can be installed by
 
 ``` shell
 lhapdf install NNPDF23_lo_as_0130_qed
@@ -57,9 +57,10 @@ Usage: ggh2 <ECM in GeV> <MH in GeV> [nevent] [output]
 ## References
 
 * [arXiv:hep-ph/9504378](https://arxiv.org/abs/hep-ph/9504378) (pp --> h),
+* [arXiv:hep-ph/0503172](https://arxiv.org/abs/hep-ph/0503172) (pp --> h),
 * [arXiv:hep-ph/9603205](https://arxiv.org/abs/hep-ph/9603205) (pp --> hh),
 * [arXiv:1405.7040](https://arxiv.org/abs/1405.7040) (pp --> hh).
 
-## plot
+## Plot
 
 There are example codes for making some histograms using generated event data in the [`plot`](plot) directory. [ROOT](https://root.cern.ch/) is required to build them.
