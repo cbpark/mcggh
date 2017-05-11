@@ -9,12 +9,21 @@
 #include "kinematics.h"
 #include <cmath>
 #include <ostream>
+#include "utils.h"
 
 namespace mcggh {
 std::ostream &operator<<(std::ostream &os, const FourMomentum &p) {
     os << "e = " << p.e_ << ", px = " << p.px_ << ", py = " << p.py_
        << ", pz = " << p.pz_;
     return os;
+}
+
+FourMomentum boostZ(const FourMomentum &p, const double beta) {
+    const double gamma = 1.0 / std::sqrt(1 - beta * beta);
+    const double gb = gamma * beta;
+    FourMomentum boosted(gamma * p.e_ - gb * p.pz_, p.px_, p.py_,
+                         -gb * p.e_ + gamma * p.pz_);
+    return boosted;
 }
 
 void CM22::init() {
@@ -33,13 +42,21 @@ void CM22::init() {
         pT_ = e_ * beta_ * sinth_;
         pL_ = e_ * beta_ * costh_;
     }
+
+    const double phi = 2.0 * PI * getRandom();
+    sinphi_ = std::sin(phi);
+    cosphi_ = std::cos(phi);
 }
 
 FourMomentum CM22::pa() const { return FourMomentum(e_, 0, 0, e_); }
 
 FourMomentum CM22::pb() const { return FourMomentum(e_, 0, 0, -e_); }
 
-FourMomentum CM22::pc() const { return FourMomentum(e_, pT_, 0, pL_); }
+FourMomentum CM22::pc() const {
+    return FourMomentum(e_, pT_ * cosphi_, pT_ * sinphi_, pL_);
+}
 
-FourMomentum CM22::pd() const { return FourMomentum(e_, -pT_, 0, -pL_); }
+FourMomentum CM22::pd() const {
+    return FourMomentum(e_, -pT_ * cosphi_, -pT_ * sinphi_, -pL_);
+}
 }  // namespace mcggh

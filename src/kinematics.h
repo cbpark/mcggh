@@ -46,6 +46,8 @@ public:
     }
 
     friend std::ostream &operator<<(std::ostream &os, const FourMomentum &p);
+
+    friend FourMomentum boostZ(const FourMomentum &p, const double beta);
 };
 
 /**
@@ -59,6 +61,7 @@ class CM22 {
 private:
     double s_, mh2_, e_;
     double costh_, sinth_;
+    double cosphi_, sinphi_;
     double beta_;
     double pT_, pL_;
 

@@ -29,6 +29,7 @@ public:
     double x2() const { return x2_; }
     double shat() const { return shat_; }
     double delta_y() const { return 2 * ymax_; }
+    double beta() const { return (x2_ - x1_) / (x2_ + x1_); }
 
 private:
     void init(const double s);
