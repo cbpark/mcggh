@@ -126,8 +126,11 @@ int main(int argc, char *argv[]) {
         double r = mcggh::getRandom();
         if (r < prob) {
             ++iev;
-            mcggh::Result r(k.mhh(), k.pT());
-            out << r << '\n';
+            double beta = glu.beta();
+            auto h1 = boostZ(k.pc(), beta);
+            auto h2 = boostZ(k.pd(), beta);
+            mcggh::Result result(k.mhh(), k.pT(), h1.delta_R(h2));
+            out << result << '\n';
         }
     }
 

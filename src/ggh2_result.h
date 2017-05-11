@@ -14,14 +14,16 @@
 namespace mcggh {
 class Result {
 private:
-    double mhh_, pT_;
+    double mhh_, pT_, dR_;
 
 public:
     Result() = delete;
-    Result(const double mhh, const double pT) : mhh_(mhh), pT_(pT) {}
+    Result(const double mhh, const double pT, const double dR)
+        : mhh_(mhh), pT_(pT), dR_(dR) {}
 
     double mhh() const { return mhh_; }
     double pT() const { return pT_; }
+    double dR() const { return dR_; }
 
     friend std::ostream &operator<<(std::ostream &os, const Result &re);
 };
