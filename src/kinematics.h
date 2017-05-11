@@ -29,11 +29,7 @@ public:
         return px_ == 0 && py_ == 0 ? 0 : std::atan2(py_, px_);
     }
 
-    double delta_phi(const FourMomentum &p) const;
-
     double eta() const { return 0.5 * log((e_ + pz_) / (e_ - pz_)); }
-
-    double delta_R(const FourMomentum &p) const;
 
     FourMomentum operator-() const {
         return FourMomentum(-e_, -px_, -py_, -pz_);
@@ -59,6 +55,12 @@ public:
 
     friend FourMomentum boostZ(const FourMomentum &p, const double beta);
 };
+
+FourMomentum boostZ(const FourMomentum &p, const double beta);
+
+double deltaPhi(const FourMomentum &p1, const FourMomentum &p2);
+
+double deltaR(const FourMomentum &p1, const FourMomentum &p2);
 
 /**
  *  Particle momenta of 2 --> 2 process at the CM frame.

@@ -13,22 +13,6 @@
 #include "utils.h"
 
 namespace mcggh {
-double phi_mpi_pi(double phi) {
-    while (phi >= PI) { phi -= TWOPI; }
-    while (phi < -PI) { phi += TWOPI; }
-    return phi;
-}
-
-double FourMomentum::delta_phi(const FourMomentum &p) const {
-    return phi_mpi_pi(phi() - p.phi());
-}
-
-double FourMomentum::delta_R(const FourMomentum &p) const {
-    const double deta = eta() - p.eta();
-    const double dphi = phi() - p.phi();
-    return std::sqrt(deta * deta + dphi * dphi);
-}
-
 std::ostream &operator<<(std::ostream &os, const FourMomentum &p) {
     os << "e = " << p.e_ << ", px = " << p.px_ << ", py = " << p.py_
        << ", pz = " << p.pz_;
@@ -41,6 +25,22 @@ FourMomentum boostZ(const FourMomentum &p, const double beta) {
     FourMomentum boosted(gamma * p.e_ - gb * p.pz_, p.px_, p.py_,
                          -gb * p.e_ + gamma * p.pz_);
     return boosted;
+}
+
+double phi_mpi_pi(double phi) {
+    while (phi >= PI) { phi -= TWOPI; }
+    while (phi < -PI) { phi += TWOPI; }
+    return phi;
+}
+
+double deltaPhi(const FourMomentum &p1, const FourMomentum &p2) {
+    return phi_mpi_pi(p1.phi() - p2.phi());
+}
+
+double deltaR(const FourMomentum &p1, const FourMomentum &p2) {
+    const double deta = p1.eta() - p2.eta();
+    const double dphi = deltaPhi(p1, p2);
+    return std::sqrt(deta * deta + dphi * dphi);
 }
 
 void CM22::init() {

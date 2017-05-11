@@ -105,8 +105,6 @@ int main(int argc, char *argv[]) {
     const int nev = std::atoi(argv[3]);
     int iev = 0;  // counter for event generation
     while (iev < nev) {
-        mcggh::printProgress(iev, nev);
-
         double rho_val = mcggh::rhoValue(rho);
         double shat = rho.shat(rho_val);
 
@@ -125,11 +123,13 @@ int main(int argc, char *argv[]) {
         // the phase space point
         double r = mcggh::getRandom();
         if (r < prob) {
+            mcggh::printProgress(iev, nev);
+
             ++iev;
             double beta = glu.beta();
-            auto h1 = boostZ(k.pc(), beta);
-            auto h2 = boostZ(k.pd(), beta);
-            mcggh::Result result(k.mhh(), k.pT(), h1.delta_R(h2));
+            auto h1 = mcggh::boostZ(k.pc(), beta);
+            auto h2 = mcggh::boostZ(k.pd(), beta);
+            mcggh::Result result(k.mhh(), k.pT(), mcggh::deltaR(h1, h2));
             out << result << '\n';
         }
     }
