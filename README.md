@@ -46,11 +46,11 @@ Usage: ggh2 <ECM in GeV> <MH in GeV> [nevent] [output]
  Zeitschrift fuer Physik C46(1990)425.
  ====================================================
 -- Done integrating.
--- Total cross section = 12.7854 +- 0.0583864 fb
+-- Total cross section = 12.8395 +- 0.0584059 fb
 -- Generating events ...
-   461.901      194.199
-   344.684       95.022
-   434.324      135.025
+   498.417      190.234
+   540.578      238.768
+   645.967      297.814
 -- Done.
 ```
 
