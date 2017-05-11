@@ -54,8 +54,8 @@ void fillHist(unique_ptr<ifstream> fin, shared_ptr<TH1> hist) {
         if (line.front() == '#') { continue; }  // comment line
 
         istringstream iss(line);
-        double mhh, pT;
-        if (!(iss >> mhh >> pT)) { break; }
+        double mhh, pT, dR;
+        if (!(iss >> mhh >> pT >> dR)) { break; }
 
         if (pT > 0) { hist->Fill(mhh); }
     }
