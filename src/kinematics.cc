@@ -9,9 +9,26 @@
 #include "kinematics.h"
 #include <cmath>
 #include <ostream>
+#include "constants.h"
 #include "utils.h"
 
 namespace mcggh {
+double phi_mpi_pi(double phi) {
+    while (phi >= PI) { phi -= TWOPI; }
+    while (phi < -PI) { phi += TWOPI; }
+    return phi;
+}
+
+double FourMomentum::delta_phi(const FourMomentum &p) const {
+    return phi_mpi_pi(phi() - p.phi());
+}
+
+double FourMomentum::delta_R(const FourMomentum &p) const {
+    const double deta = eta() - p.eta();
+    const double dphi = phi() - p.phi();
+    return std::sqrt(deta * deta + dphi * dphi);
+}
+
 std::ostream &operator<<(std::ostream &os, const FourMomentum &p) {
     os << "e = " << p.e_ << ", px = " << p.px_ << ", py = " << p.py_
        << ", pz = " << p.pz_;

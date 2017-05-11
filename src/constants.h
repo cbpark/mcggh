@@ -36,6 +36,7 @@ const double VEW2 = VEW * VEW;
 const double ALPHAS = 0.118;
 
 const double PI = 3.141592653589793238463;
+const double TWOPI = 2.0 * PI;
 
 /** conversion factor GeV^-2 -> pb */
 const double PBCONV = 3.893793656e8;

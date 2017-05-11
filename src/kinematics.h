@@ -25,6 +25,16 @@ public:
 
     double m2() const { return e_ * e_ - px_ * px_ - py_ * py_ - pz_ * pz_; }
 
+    double phi() const {
+        return px_ == 0 && py_ == 0 ? 0 : std::atan2(py_, px_);
+    }
+
+    double delta_phi(const FourMomentum &p) const;
+
+    double eta() const { return 0.5 * log((e_ + pz_) / (e_ - pz_)); }
+
+    double delta_R(const FourMomentum &p) const;
+
     FourMomentum operator-() const {
         return FourMomentum(-e_, -px_, -py_, -pz_);
     }
