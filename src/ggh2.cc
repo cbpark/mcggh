@@ -21,7 +21,7 @@
 
 const char appname[] = "ggh2";
 
-const int N = 100000;
+const unsigned int N = 100000;
 const char PDFNAME[] = "NNPDF23_lo_as_0130_qed";
 
 const double KLAMBDA = 1.0;
@@ -54,8 +54,8 @@ int main(int argc, char *argv[]) {
     double sum_w = 0, sum_w_sq = 0;  // for the variance
     double w_max = 0;
     std::cout << "-- Integrating for cross section ...\n";
-    for (int i = 0; i != N; ++i) {
-        mcggh::printProgress(i, N);
+    for (auto itry = 0; itry != N; ++itry) {
+        mcggh::printProgress(itry, N);
 
         double rho_val = mcggh::rhoValue(rho);
         double shat = rho.shat(rho_val);
@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
         mcggh::HHCoupling c(shat, mH, KLAMBDA, KYT, KYB, GHHTT, GHHBB);
         mcggh::CM22 k(shat, mH, mcggh::costh(DELTATH));
 
-        double mu = k.mhh();
+        double mu = k.mhh();  // renormalization and factorization scales
         mcggh::InitGluon glu(s, shat);
         double alphas = pdf->alphasQ(mu);
 

@@ -24,9 +24,9 @@ int main(int argc, char *argv[]) {
     if (argc != 4) { return howToUse(appname, "<input1> <input2> <output>"); }
 
     auto fin1 = make_unique<ifstream>(argv[1]);
-    if (!fin1->good()) { return failedToRead(appname, argv[1]); }
+    if (fin1->fail()) { return failedToRead(appname, argv[1]); }
     auto fin2 = make_unique<ifstream>(argv[2]);
-    if (!fin2->good()) { return failedToRead(appname, argv[2]); }
+    if (fin2->fail()) { return failedToRead(appname, argv[2]); }
 
     // Create the canvas.
     auto canvas = make_unique<TCanvas>("c", "", 0, 0, 600, 600);

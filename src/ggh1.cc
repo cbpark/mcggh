@@ -18,9 +18,8 @@
 
 const char appname[] = "ggh1";
 
-const int N = 4000000;
+const unsigned int N = 4000000;
 const char PDFNAME[] = "NNPDF23_lo_as_0130_qed";
-// const char PDFNAME[] = "cteq6l1";
 
 int main(int argc, char *argv[]) {
     if (argc != 3) {
@@ -47,8 +46,8 @@ int main(int argc, char *argv[]) {
 
     double sum_w = 0, sum_w_sq = 0;  // for the variance
     std::cout << "-- Integrating for cross section ...\n";
-    for (int i = 0; i != N; ++i) {
-        mcggh::printProgress(i, N);
+    for (auto itry = 0; itry != N; ++itry) {
+        mcggh::printProgress(itry, N);
 
         double rho_val = mcggh::rhoValue(rho);
         double shat = rho.shat(rho_val);
