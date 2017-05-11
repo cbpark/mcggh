@@ -59,6 +59,10 @@ int main(int argc, char *argv[]) {
     legend->AddEntry("h2", "#sqrt{s} = 100 TeV");
     legend->Draw();
 
+    auto info = mkText();
+    info->DrawLatex(0.58, 0.92,
+                    "C_{#Delta} = C_{#Delta}^{SM}, C_{#Box} = C_{#Box}^{SM}");
+
     canvas->SaveAs(argv[3]);
 }
 
