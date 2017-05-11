@@ -25,7 +25,7 @@ void HHCoupling::init(const double xi_lambda, const double xi_t,
     // See Eqs.(1) and (2) of arXiv:1405.7040
     ctri_t_ = (lambda * prop * yt / SQRT2 + ghhtt) * VEW2 / MT;
     cbox_t_ = (yt * yt / 2) * VEW2 / MT2;
-    ctri_t_ = (lambda * prop * yb / SQRT2 + ghhbb) * VEW2 / MB;
-    cbox_t_ = (yb * yb / 2) * VEW2 / MB2;
+    ctri_b_ = (lambda * prop * yb / SQRT2 + ghhbb) * VEW2 / MB;
+    cbox_b_ = (yb * yb / 2) * VEW2 / MB2;
 }
 }  // namespace mcggh
