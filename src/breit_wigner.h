@@ -9,9 +9,6 @@
 #ifndef SRC_BREIT_WIGNER_H_
 #define SRC_BREIT_WIGNER_H_
 
-#include <cmath>
-#include "utils.h"
-
 namespace mcggh {
 class Rho {
 private:
@@ -22,30 +19,24 @@ public:
     Rho() = delete;
     Rho(const double qmin, const double qmax, const double m,
         const double gamma, const double s)
-        : m_(m), gamma_(gamma), s_(s) {
-        const double gm = gamma_ * m_;
-        rho1_ = std::atan((qmin * qmin - m_ * m_) / gm);
-        rho2_ = std::atan((qmax * qmax - m_ * m_) / gm);
+        : m_{m}, gamma_{gamma}, s_{s} {
+        init(qmin * qmin, qmax * qmax);
     }
 
     double delta() const { return rho2_ - rho1_; }
 
-    double jacobian(const double val) const {
-        const double cosrho = std::cos(val);
-        return m_ * gamma_ / (cosrho * cosrho * s_);
-    }
+    double jacobian(const double val) const;
 
     /** \hat{s} = M * Gamma * tan(rho) + M^2 */
-    double shat(const double val) const {
-        return m_ * gamma_ * std::tan(val) + m_ * m_;
-    }
+    double shat(const double val) const;
 
     friend double rhoValue(const Rho &rho);
+
+private:
+    void init(const double qmin2, const double qmax2);
 };
 
-inline double rhoValue(const Rho &rho) {
-    return rho.rho1_ + getRandom() * (rho.rho2_ - rho.rho1_);
-}
+double rhoValue(const Rho &rho);
 }  // namespace mcggh
 
 #endif  // SRC_BREIT_WIGNER_H_
