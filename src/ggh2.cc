@@ -9,6 +9,7 @@
 #include <cmath>
 #include <fstream>
 #include <iostream>
+#include <memory>
 #include <streambuf>
 #include <tuple>
 #include "breit_wigner.h"
@@ -42,8 +43,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    const double eCM = std::atof(argv[1]);
-    const double mH = std::atof(argv[2]);
+    const double eCM = std::atof(argv[1]), mH = std::atof(argv[2]);
     std::cout << "* p p --> g g --> h h (ECM = " << eCM / 1000.0
               << " TeV, MH = " << mH << " GeV)\n";
 
@@ -54,10 +54,9 @@ int main(int argc, char *argv[]) {
     const mcggh::Rho rho{qmin, qmax, mtr, gtr, s};
 
     // PDF from LHAPDF.
-    const std::shared_ptr<LHAPDF::PDF> pdf = mcggh::mkPdf(PDFNAME);
+    const std::shared_ptr<LHAPDF::PDF> pdf(mcggh::mkPdf(PDFNAME));
 
-    double sum_w = 0, sum_w_sq = 0;  // for the variance
-    double w_max = 0;
+    double sum_w = 0, sum_w_sq = 0, w_max = 0;  // for the variance
     std::cout << "-- Integrating for cross section ...\n";
     for (auto itry = 0; itry != N; ++itry) {
         mcggh::printProgress(itry, N);
@@ -112,8 +111,8 @@ int main(int argc, char *argv[]) {
             ++iev;
             const double beta = std::get<1>(mc_result);
             const mcggh::CM22 k(std::get<2>(mc_result));
-            const mcggh::FourMomentum h1 = mcggh::boostZ(k.pc(), beta);
-            const mcggh::FourMomentum h2 = mcggh::boostZ(k.pd(), beta);
+            const mcggh::FourMomentum h1(mcggh::boostZ(k.pc(), beta));
+            const mcggh::FourMomentum h2(mcggh::boostZ(k.pd(), beta));
             const mcggh::Result result{k.mhh(), k.pT(), mcggh::deltaR(h1, h2)};
             out << result << '\n';
         }

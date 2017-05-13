@@ -27,8 +27,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    const double eCM = std::atof(argv[1]);
-    const double mH = std::atof(argv[2]);
+    const double eCM = std::atof(argv[1]), mH = std::atof(argv[2]);
     std::cout << "* p p --> g g --> h (ECM = " << eCM / 1000.0
               << " TeV, MH = " << mH << " GeV)\n";
 
