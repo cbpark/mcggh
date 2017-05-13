@@ -21,7 +21,7 @@
 
 const char appname[] = "ggh2";
 
-const unsigned int N = 100000;
+const unsigned int N = 10000;
 const char PDFNAME[] = "NNPDF23_lo_as_0130_qed";
 
 const double KLAMBDA = 1.0;
@@ -46,10 +46,10 @@ int main(int argc, char *argv[]) {
     // parameters for random \hat{s}.
     const double thres = 2 * mH;
     const double qmin = thres, qmax = std::sqrt(s), mtr = thres, gtr = thres;
-    const mcggh::Rho rho(qmin, qmax, mtr, gtr, s);
+    const mcggh::Rho rho{qmin, qmax, mtr, gtr, s};
 
     // PDF from LHAPDF.
-    auto pdf = mcggh::mkPdf(PDFNAME);
+    const auto pdf = mcggh::mkPdf(PDFNAME);
 
     double sum_w = 0, sum_w_sq = 0;  // for the variance
     double w_max = 0;
@@ -57,18 +57,18 @@ int main(int argc, char *argv[]) {
     for (auto itry = 0; itry != N; ++itry) {
         mcggh::printProgress(itry, N);
 
-        double rho_val = mcggh::rhoValue(rho);
-        double shat = rho.shat(rho_val);
+        const double rho_val = mcggh::rhoValue(rho);
+        const double shat = rho.shat(rho_val);
 
-        mcggh::HHCoupling c(shat, mH, KLAMBDA, KYT, KYB, GHHTT, GHHBB);
-        mcggh::CM22 k(shat, mH, mcggh::costh(DELTATH));
+        const mcggh::HHCoupling c{shat, mH, KLAMBDA, KYT, KYB, GHHTT, GHHBB};
+        const mcggh::CM22 k{shat, mH, mcggh::costh(DELTATH)};
 
-        double mu = k.mhh();  // renormalization and factorization scales
-        mcggh::InitGluon glu(s, shat);
-        double alphas = pdf->alphasQ(mu);
+        const double mu = k.mhh();  // renormalization and factorization scales
+        const mcggh::InitGluon glu{s, shat};
+        const double alphas = pdf->alphasQ(mu);
 
-        double w = mcggh::dsigma(pdf, glu, c, k, mu, alphas) * DELTATH *
-                   rho.delta() * glu.delta_y() * rho.jacobian(rho_val);
+        const double w = mcggh::dsigma(pdf, glu, c, k, mu, alphas) * DELTATH *
+                         rho.delta() * glu.delta_y() * rho.jacobian(rho_val);
 
         sum_w += w;
         sum_w_sq += w * w;
@@ -105,31 +105,31 @@ int main(int argc, char *argv[]) {
     const int nev = std::atoi(argv[3]);
     int iev = 0;  // counter for event generation
     while (iev < nev) {
-        double rho_val = mcggh::rhoValue(rho);
-        double shat = rho.shat(rho_val);
+        const double rho_val = mcggh::rhoValue(rho);
+        const double shat = rho.shat(rho_val);
 
-        mcggh::HHCoupling c(shat, mH, KLAMBDA, KYT, KYB, GHHTT, GHHBB);
-        mcggh::CM22 k(shat, mH, mcggh::costh(DELTATH));
+        const mcggh::HHCoupling c{shat, mH, KLAMBDA, KYT, KYB, GHHTT, GHHBB};
+        const mcggh::CM22 k{shat, mH, mcggh::costh(DELTATH)};
 
-        double mu = k.mhh();
-        mcggh::InitGluon glu(s, shat);
-        double alphas = pdf->alphasQ(mu);
+        const double mu = k.mhh();
+        const mcggh::InitGluon glu{s, shat};
+        const double alphas = pdf->alphasQ(mu);
 
-        double w = mcggh::dsigma(pdf, glu, c, k, mu, alphas) * DELTATH *
-                   rho.delta() * glu.delta_y() * rho.jacobian(rho_val);
-        double prob = w / w_max;
+        const double w = mcggh::dsigma(pdf, glu, c, k, mu, alphas) * DELTATH *
+                         rho.delta() * glu.delta_y() * rho.jacobian(rho_val);
+        const double prob = w / w_max;
 
         // accept the event if the random number is less than the probability of
         // the phase space point
-        double r = mcggh::getRandom();
+        const double r = mcggh::getRandom();
         if (r < prob) {
             mcggh::printProgress(iev, nev);
 
             ++iev;
-            double beta = glu.beta();
-            auto h1 = mcggh::boostZ(k.pc(), beta);
-            auto h2 = mcggh::boostZ(k.pd(), beta);
-            mcggh::Result result(k.mhh(), k.pT(), mcggh::deltaR(h1, h2));
+            const double beta = glu.beta();
+            const auto h1 = mcggh::boostZ(k.pc(), beta);
+            const auto h2 = mcggh::boostZ(k.pd(), beta);
+            const mcggh::Result result{k.mhh(), k.pT(), mcggh::deltaR(h1, h2)};
             out << result << '\n';
         }
     }

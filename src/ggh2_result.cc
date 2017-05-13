@@ -12,9 +12,10 @@
 
 namespace mcggh {
 std::ostream &operator<<(std::ostream &os, const Result &re) {
-    os << std::right << std::fixed << std::setw(10) << std::setprecision(3)
-       << re.mhh_ << std::setw(13) << std::setprecision(3) << re.pT_
-       << std::setw(11) << std::setprecision(3) << re.dR_;
+    using namespace std;
+
+    os << right << fixed << setw(10) << setprecision(3) << re.mhh_ << setw(13)
+       << setprecision(3) << re.pT_ << setw(11) << setprecision(3) << re.dR_;
     return os;
 }
 }  // namespace mcggh

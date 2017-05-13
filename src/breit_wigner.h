@@ -12,8 +12,8 @@
 namespace mcggh {
 class Rho {
 private:
-    double rho1_, rho2_;
     double m_, gamma_, s_;
+    double rho1_, rho2_;
 
 public:
     Rho() = delete;

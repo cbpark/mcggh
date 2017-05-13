@@ -38,10 +38,10 @@ int main(int argc, char *argv[]) {
     // parameters for random \hat{s}.
     const double qmin = 0.0, qmax = std::sqrt(s), mtr = mH, gtr = mH;
     const double mu = mH;  // scale for PDF
-    const mcggh::Rho rho(qmin, qmax, mtr, gtr, s);
+    const mcggh::Rho rho{qmin, qmax, mtr, gtr, s};
 
     // alpha_s and PDF settings (using LHAPDF).
-    auto pdf = mcggh::mkPdf(PDFNAME);
+    const auto pdf = mcggh::mkPdf(PDFNAME);
     const double alphas = pdf->alphasQ(mu);
 
     double sum_w = 0, sum_w_sq = 0;  // for the variance
@@ -49,11 +49,11 @@ int main(int argc, char *argv[]) {
     for (auto itry = 0; itry != N; ++itry) {
         mcggh::printProgress(itry, N);
 
-        double rho_val = mcggh::rhoValue(rho);
-        double shat = rho.shat(rho_val);
-        mcggh::InitGluon glu(s, shat);
-        double w = mcggh::dsigma(pdf, std::move(glu), alphas, mu, mH, gammaH) *
-                   rho.delta() * glu.delta_y() * rho.jacobian(rho_val);
+        const double rho_val = mcggh::rhoValue(rho);
+        const double shat = rho.shat(rho_val);
+        const mcggh::InitGluon glu{s, shat};
+        const double w = mcggh::dsigma(pdf, glu, alphas, mu, mH, gammaH) *
+                         rho.delta() * glu.delta_y() * rho.jacobian(rho_val);
         sum_w += w;
         sum_w_sq += w * w;
     }

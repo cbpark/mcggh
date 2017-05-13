@@ -28,4 +28,26 @@ void HHCoupling::init(const double xi_lambda, const double xi_t,
     ctri_b_ = (lambda * prop * yb / SQRT2 + ghhbb) * VEW2 / MB;
     cbox_b_ = (yb * yb / 2) * VEW2 / MB2;
 }
+
+double HHCoupling::triangle(const QuarkType &typ) const {
+    switch (typ) {
+    case QuarkType::TOP:
+        return ctri_t_;
+    case QuarkType::BOTTOM:
+        return ctri_b_;
+    default:
+        return 0;
+    }
+}
+
+double HHCoupling::box(const QuarkType &typ) const {
+    switch (typ) {
+    case QuarkType::TOP:
+        return cbox_t_;
+    case QuarkType::BOTTOM:
+        return cbox_b_;
+    default:
+        return 0;
+    }
+}
 }  // namespace mcggh

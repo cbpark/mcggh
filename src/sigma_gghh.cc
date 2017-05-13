@@ -22,7 +22,7 @@ double dsigmaLO_dt(const HHCoupling &c, const CM22 &k, const double alphas) {
     const double tau_t = 4.0 * MT2 / k.shat(), tau_b = 4.0 * MB2 / k.shat();
 
     // top quark loops
-    LoopParams pars(k, MT);
+    LoopParams pars{k, MT};
     std::complex<double> box = fBox(pars);
     std::complex<double> arg1 = c.triangle(QuarkType::TOP) * fTriangle(tau_t) +
                                 c.box(QuarkType::TOP) * box;
@@ -30,7 +30,7 @@ double dsigmaLO_dt(const HHCoupling &c, const CM22 &k, const double alphas) {
     std::complex<double> arg2 = c.box(QuarkType::TOP) * box;
 
     // bottom quark loops
-    pars = LoopParams(k, MB);
+    pars = LoopParams{k, MB};
     box = fBox(pars);
     arg1 += c.triangle(QuarkType::BOTTOM) * fTriangle(tau_b) +
             c.box(QuarkType::BOTTOM) * box;

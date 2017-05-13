@@ -27,7 +27,7 @@ private:
 
 public:
     LoopParams() = delete;
-    LoopParams(const CM22 &k, const double mq) : mQ2_(mq * mq) { init(k); }
+    LoopParams(const CM22 &k, const double mq) : mQ2_{mq * mq} { init(k); }
 
     friend std::complex<double> fBox(const LoopParams &par);
     friend std::complex<double> gBox(const LoopParams &par);

@@ -23,27 +23,12 @@ public:
     HHCoupling(const double s, const double mh, const double xi_lambda,
                const double xi_t, const double xi_b, const double ghhtt,
                const double ghhbb)
-        : s_(s), mh_(mh) {
+        : s_{s}, mh_{mh} {
         init(xi_lambda, xi_t, xi_b, ghhtt, ghhbb);
     }
 
-    double triangle(const QuarkType &typ) const {
-        if (typ == QuarkType::TOP) {
-            return ctri_t_;
-        } else if (typ == QuarkType::BOTTOM) {
-            return ctri_b_;
-        }
-        return 0;
-    }
-
-    double box(const QuarkType &typ) const {
-        if (typ == QuarkType::TOP) {
-            return cbox_t_;
-        } else if (typ == QuarkType::BOTTOM) {
-            return cbox_b_;
-        }
-        return 0;
-    }
+    double triangle(const QuarkType &typ) const;
+    double box(const QuarkType &typ) const;
 
 private:
     void init(const double xi_lambda, const double xi_t, const double xi_b,

@@ -22,9 +22,8 @@ std::ostream &operator<<(std::ostream &os, const FourMomentum &p) {
 FourMomentum boostZ(const FourMomentum &p, const double beta) {
     const double gamma = 1.0 / std::sqrt(1 - beta * beta);
     const double gb = gamma * beta;
-    FourMomentum boosted(gamma * p.e_ - gb * p.pz_, p.px_, p.py_,
-                         -gb * p.e_ + gamma * p.pz_);
-    return boosted;
+    return {gamma * p.e_ - gb * p.pz_, p.px_, p.py_,
+            -gb * p.e_ + gamma * p.pz_};
 }
 
 double phi_mpi_pi(double phi) {
@@ -65,15 +64,15 @@ void CM22::init() {
     cosphi_ = std::cos(phi);
 }
 
-FourMomentum CM22::pa() const { return FourMomentum(e_, 0, 0, e_); }
+FourMomentum CM22::pa() const { return {e_, 0, 0, e_}; }
 
-FourMomentum CM22::pb() const { return FourMomentum(e_, 0, 0, -e_); }
+FourMomentum CM22::pb() const { return {e_, 0, 0, -e_}; }
 
 FourMomentum CM22::pc() const {
-    return FourMomentum(e_, pT_ * cosphi_, pT_ * sinphi_, pL_);
+    return {e_, pT_ * cosphi_, pT_ * sinphi_, pL_};
 }
 
 FourMomentum CM22::pd() const {
-    return FourMomentum(e_, -pT_ * cosphi_, -pT_ * sinphi_, -pL_);
+    return {e_, -pT_ * cosphi_, -pT_ * sinphi_, -pL_};
 }
 }  // namespace mcggh

@@ -19,7 +19,7 @@ private:
 public:
     Result() = delete;
     Result(const double mhh, const double pT, const double dR)
-        : mhh_(mhh), pT_(pT), dR_(dR) {}
+        : mhh_{mhh}, pT_{pT}, dR_{dR} {}
 
     double mhh() const { return mhh_; }
     double pT() const { return pT_; }

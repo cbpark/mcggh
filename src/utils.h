@@ -13,7 +13,7 @@
 #include "constants.h"
 
 namespace mcggh {
-inline void printProgress(const int i, const int N) {
+inline void printProgress(const unsigned int i, const int N) {
     std::cout << "progress: " << i * 100.0 / N << "%\r" << std::flush;
 }
 

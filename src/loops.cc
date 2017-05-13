@@ -19,11 +19,11 @@ namespace mcggh {
 complex<double> ftau(const double tau) {
     if (tau < 1) {
         const double beta = std::sqrt(1 - tau);
-        const complex<double> arg(std::log((1 + beta) / (1 - beta)), -PI);
+        const complex<double> arg{std::log((1 + beta) / (1 - beta)), -PI};
         return -0.25 * std::pow(arg, 2);
     }
     const double arg = std::asin(1.0 / std::sqrt(tau));
-    return complex<double>(arg * arg, 0);
+    return {arg * arg, 0};
 }
 
 complex<double> fTriangle(const double tau) {
@@ -31,8 +31,8 @@ complex<double> fTriangle(const double tau) {
 }
 
 void LoopParams::init(const CM22 &k) {
-    const FourMomentum pa = k.pa(), pb = k.pb();
-    const FourMomentum pc = -k.pc(), pd = -k.pd();  // all incoming
+    const FourMomentum pa(k.pa()), pb(k.pb());
+    const FourMomentum pc(-k.pc()), pd(-k.pd());  // all incoming
     const double pa2 = pa.m2(), pb2 = pb.m2(), pc2 = pc.m2(), pd2 = pd.m2();
 
     const double pab2 = (pa + pb).m2();
@@ -66,11 +66,11 @@ void LoopParams::init(const CM22 &k) {
 }
 
 complex<double> fBox(const LoopParams &p) {
-    if (p.s_ <= 0) { return complex<double>(0, 0); }
+    if (p.s_ <= 0) { return {0, 0}; }
 
     const double s2 = p.s_ * p.s_;
     const double rho8 = p.rhoc_ + p.rhod_ - 8;
-    auto box = complex<double>(4 * p.s_, 0) + 8 * p.s_ * p.mQ2_ * p.Cab_;
+    auto box = complex<double>{4 * p.s_, 0} + 8 * p.s_ * p.mQ2_ * p.Cab_;
     box += -2 * p.s_ * (p.s_ + rho8) * p.mQ2_ * p.mQ2_ *
            (p.Dabc_ + p.Dbac_ + p.Dacb_);
     box += rho8 * p.mQ2_ *
@@ -81,11 +81,11 @@ complex<double> fBox(const LoopParams &p) {
 }
 
 complex<double> gBox(const LoopParams &p) {
-    if (p.s_ <= 0) { return complex<double>(0, 0); }
+    if (p.s_ <= 0) { return {0, 0}; }
 
     const double rho2 = p.rhoc_ * p.rhod_;
     const double denom = p.s_ * (p.t_ * p.u_ - rho2);
-    if (denom == 0) { return complex<double>(0, 0); }
+    if (denom == 0) { return {0, 0}; }
 
     auto box = (p.t_ * p.t_ + rho2 - 8 * p.t_) * p.mQ2_ *
                (p.s_ * p.Cab_ + p.t1_ * p.Cac_ + p.t2_ * p.Cbd_ -

@@ -12,13 +12,13 @@
 
 namespace mcggh {
 void Rho::init(const double qmin2, const double qmax2) {
-    const double gm{gamma_ * m_};
+    const double gm = gamma_ * m_;
     rho1_ = std::atan((qmin2 - m_ * m_) / gm);
     rho2_ = std::atan((qmax2 - m_ * m_) / gm);
 }
 
 double Rho::jacobian(const double val) const {
-    const double cosrho{std::cos(val)};
+    const double cosrho = std::cos(val);
     return m_ * gamma_ / (cosrho * cosrho * s_);
 }
 

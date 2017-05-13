@@ -14,14 +14,14 @@
 namespace mcggh {
 class InitGluon {
 private:
-    double x1_, x2_;
     double shat_;
     double ymax_;
+    double x1_, x2_;
 
 public:
     InitGluon() = delete;
     InitGluon(const double s, const double shat)
-        : shat_(shat), ymax_(-0.5 * std::log(shat_ / s)) {
+        : shat_{shat}, ymax_{-0.5 * std::log(shat_ / s)} {
         init(s);
     }
 
