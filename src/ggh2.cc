@@ -10,6 +10,7 @@
 #include <fstream>
 #include <iostream>
 #include <streambuf>
+#include <tuple>
 #include "breit_wigner.h"
 #include "constants.h"
 #include "couplings.h"
@@ -30,6 +31,10 @@ const double KYB = 1.0;
 const double GHHTT = 0.0;
 const double GHHBB = 0.0;
 
+using MCResult = std::tuple<double, double, mcggh::CM22>;
+MCResult weight(const mcggh::Rho &rho, const std::shared_ptr<LHAPDF::PDF> &pdf,
+                const double s, const double mh);
+
 int main(int argc, char *argv[]) {
     if (argc < 3 || argc > 5) {
         std::cerr << "Usage: " << appname
@@ -49,7 +54,7 @@ int main(int argc, char *argv[]) {
     const mcggh::Rho rho{qmin, qmax, mtr, gtr, s};
 
     // PDF from LHAPDF.
-    const auto pdf = mcggh::mkPdf(PDFNAME);
+    const std::shared_ptr<LHAPDF::PDF> pdf = mcggh::mkPdf(PDFNAME);
 
     double sum_w = 0, sum_w_sq = 0;  // for the variance
     double w_max = 0;
@@ -57,19 +62,8 @@ int main(int argc, char *argv[]) {
     for (auto itry = 0; itry != N; ++itry) {
         mcggh::printProgress(itry, N);
 
-        const double rho_val = mcggh::rhoValue(rho);
-        const double shat = rho.shat(rho_val);
-
-        const mcggh::HHCoupling c{shat, mH, KLAMBDA, KYT, KYB, GHHTT, GHHBB};
-        const mcggh::CM22 k{shat, mH, mcggh::costh(DELTATH)};
-
-        const double mu = k.mhh();  // renormalization and factorization scales
-        const mcggh::InitGluon glu{s, shat};
-        const double alphas = pdf->alphasQ(mu);
-
-        const double w = mcggh::dsigma(pdf, glu, c, k, mu, alphas) * DELTATH *
-                         rho.delta() * glu.delta_y() * rho.jacobian(rho_val);
-
+        const MCResult mc_result = weight(rho, pdf, s, mH);
+        const double w = std::get<0>(mc_result);
         sum_w += w;
         sum_w_sq += w * w;
         if (w > w_max) { w_max = w; }
@@ -105,18 +99,8 @@ int main(int argc, char *argv[]) {
     const int nev = std::atoi(argv[3]);
     int iev = 0;  // counter for event generation
     while (iev < nev) {
-        const double rho_val = mcggh::rhoValue(rho);
-        const double shat = rho.shat(rho_val);
-
-        const mcggh::HHCoupling c{shat, mH, KLAMBDA, KYT, KYB, GHHTT, GHHBB};
-        const mcggh::CM22 k{shat, mH, mcggh::costh(DELTATH)};
-
-        const double mu = k.mhh();
-        const mcggh::InitGluon glu{s, shat};
-        const double alphas = pdf->alphasQ(mu);
-
-        const double w = mcggh::dsigma(pdf, glu, c, k, mu, alphas) * DELTATH *
-                         rho.delta() * glu.delta_y() * rho.jacobian(rho_val);
+        const MCResult mc_result = weight(rho, pdf, s, mH);
+        const double w = std::get<0>(mc_result);
         const double prob = w / w_max;
 
         // accept the event if the random number is less than the probability of
@@ -126,9 +110,10 @@ int main(int argc, char *argv[]) {
             mcggh::printProgress(iev, nev);
 
             ++iev;
-            const double beta = glu.beta();
-            const auto h1 = mcggh::boostZ(k.pc(), beta);
-            const auto h2 = mcggh::boostZ(k.pd(), beta);
+            const double beta = std::get<1>(mc_result);
+            const mcggh::CM22 k(std::get<2>(mc_result));
+            const mcggh::FourMomentum h1 = mcggh::boostZ(k.pc(), beta);
+            const mcggh::FourMomentum h2 = mcggh::boostZ(k.pd(), beta);
             const mcggh::Result result{k.mhh(), k.pT(), mcggh::deltaR(h1, h2)};
             out << result << '\n';
         }
@@ -140,4 +125,22 @@ int main(int argc, char *argv[]) {
     } else {
         std::cout << "          \n";
     }
+}
+
+MCResult weight(const mcggh::Rho &rho, const std::shared_ptr<LHAPDF::PDF> &pdf,
+                const double s, const double mh) {
+    const double rho_val = mcggh::rhoValue(rho);
+    const double shat = rho.shat(rho_val);
+
+    const mcggh::HHCoupling c{shat, mh, KLAMBDA, KYT, KYB, GHHTT, GHHBB};
+    const mcggh::CM22 k{shat, mh, mcggh::costh(DELTATH)};
+
+    const double mu = k.mhh();  // renormalization and factorization scales
+    const mcggh::InitGluon glu{s, shat};
+    const double alphas = pdf->alphasQ(mu);
+
+    const double w = mcggh::dsigma(pdf, glu, c, k, mu, alphas) * DELTATH *
+                     rho.delta() * glu.delta_y() * rho.jacobian(rho_val);
+
+    return std::make_tuple(w, glu.beta(), k);
 }
