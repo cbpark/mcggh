@@ -21,7 +21,7 @@
 
 const char appname[] = "ggh2";
 
-const unsigned int N = 10000;
+const unsigned int N = 100000;
 const char PDFNAME[] = "NNPDF23_lo_as_0130_qed";
 
 const double KLAMBDA = 1.0;
