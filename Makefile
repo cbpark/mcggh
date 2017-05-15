@@ -8,11 +8,6 @@ LIBS     :=
 AR       := ar crs
 MKDIR    := mkdir -p
 RM       := rm -f
-UNAME    := $(shell uname -s)
-
-ifeq ($(UNAME), Darwin)
-	CXXFLAGS += -stdlib=libc++
-endif
 
 EXE    := $(BINDIR)/ggh1 $(BINDIR)/ggh2
 EXESRC := $(patsubst $(BINDIR)/%,$(SRCDIR)/%.cc,$(EXE))
