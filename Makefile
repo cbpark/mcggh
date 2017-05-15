@@ -9,13 +9,6 @@ AR       := ar crs
 MKDIR    := mkdir -p
 RM       := rm -f
 
-EXE    := $(BINDIR)/ggh1 $(BINDIR)/ggh2
-EXESRC := $(patsubst $(BINDIR)/%,$(SRCDIR)/%.cc,$(EXE))
-EXEOBJ := $(EXESRC:.cc=.o)
-LIB    := $(LIBDIR)/lib$(PKGNAME).a
-LIBSRC := $(filter-out $(EXESRC),$(wildcard $(SRCDIR)/*.cc))
-LIBOBJ := $(LIBSRC:.cc=.o)
-
 # LHAPDF (http://lhapdf.hepforge.org/)
 CXXFLAGS += $(shell lhapdf-config --cflags)
 LIBS     += $(shell lhapdf-config --libs)
@@ -24,6 +17,14 @@ LIBS     += $(shell lhapdf-config --libs)
 LT       := /usr
 CXXFLAGS += -I$(LT)/include
 LIBS     += -L$(LT)/lib -looptools
+
+# Targets
+EXE    := $(BINDIR)/ggh1 $(BINDIR)/ggh2
+EXESRC := $(patsubst $(BINDIR)/%,$(SRCDIR)/%.cc,$(EXE))
+EXEOBJ := $(EXESRC:.cc=.o)
+LIB    := $(LIBDIR)/lib$(PKGNAME).a
+LIBSRC := $(filter-out $(EXESRC),$(wildcard $(SRCDIR)/*.cc))
+LIBOBJ := $(LIBSRC:.cc=.o)
 
 .PHONY: all build clean
 
