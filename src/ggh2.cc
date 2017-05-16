@@ -26,11 +26,13 @@ const char appname[] = "ggh2";
 const unsigned int N = 100000;
 const char PDFNAME[] = "NNPDF23_lo_as_0130_qed";
 
+const double M = 1.0e+3;
+const double M2 = M * M;
 const double KLAMBDA = 1.0;
 const double KYT = 1.0;
-const double KYB = 1.0;
-const double GHHTT = 0.0;
-const double GHHBB = 0.0;
+const double KYB = 1.0 - (MT / MB) * VEW2 / (2.0 * M2);
+const double GHHTT = 0;
+const double GHHBB = -3.0 * VEW / (2 * SQRT2 * M2);
 
 using MCResult = std::tuple<double, double, mcggh::CM22>;
 MCResult weight(const mcggh::Rho &rho, const std::shared_ptr<LHAPDF::PDF> &pdf,
