@@ -31,8 +31,8 @@ const double M2 = M * M;
 const double KLAMBDA = 1.0;
 const double KYT = 1.0;
 const double KYB = 1.0 - (MT / MB) * VEW2 / (2.0 * M2);
-const double GHHTT = 0;
-const double GHHBB = -3.0 * VEW / (2 * SQRT2 * M2);
+const double GHHTT = -3.0 * VEW / (2 * SQRT2 * M2);
+const double GHHBB = GHHTT;
 
 using MCResult = std::tuple<double, double, mcggh::CM22>;
 MCResult weight(const mcggh::Rho &rho, const std::shared_ptr<LHAPDF::PDF> &pdf,
