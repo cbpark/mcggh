@@ -49,10 +49,11 @@ int main(int argc, char *argv[]) {
     hist2->SetLineStyle(2);
 
     // Fill and draw histogram
-    fillHist(move(fin1), hist1);
+    const int nev1 = fillHist(move(fin1), hist1);
     hist1->DrawNormalized();
-    fillHist(move(fin2), hist2);
+    const int nev2 = fillHist(move(fin2), hist2);
     hist2->DrawNormalized("SAME");
+    std::cout << "-- Number of events = (" << nev1 << ", " << nev2 << ")\n";
 
     auto legend = mkLegend(0.6, 0.7, 0.9, 0.85);
     legend->AddEntry("h1", "#sqrt{s} = 13 TeV");
@@ -66,7 +67,8 @@ int main(int argc, char *argv[]) {
     canvas->SaveAs(argv[3]);
 }
 
-void fillHist(unique_ptr<ifstream> fin, shared_ptr<TH1> hist) {
+int fillHist(unique_ptr<ifstream> fin, shared_ptr<TH1> hist) {
+    int nev = 0;
     string line;
     while (getline(*fin, line)) {
         if (line.front() == '#') { continue; }  // comment line
@@ -75,7 +77,11 @@ void fillHist(unique_ptr<ifstream> fin, shared_ptr<TH1> hist) {
         double mhh, pT, dR;
         if (!(iss >> mhh >> pT >> dR)) { break; }
 
-        if (pT > 0) { hist->Fill(pT); }
+        if (pT > 0) {
+            hist->Fill(pT);
+            ++nev;
+        }
     }
     fin->close();
+    return nev;
 }

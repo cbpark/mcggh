@@ -29,13 +29,13 @@ int failedToRead(const std::string &appname, const std::string &fname) {
     return 1;
 }
 
-void fillHist(std::unique_ptr<std::ifstream> fin, std::shared_ptr<TH1> hist);
+int fillHist(std::unique_ptr<std::ifstream> fin, std::shared_ptr<TH1> hist);
 
 void setHist(std::shared_ptr<TH1> hist) {
     hist->GetXaxis()->CenterTitle();
     hist->GetYaxis()->CenterTitle();
     hist->SetTitle("");
-    hist->SetTitleOffset(0.9, "xy");
+    hist->SetTitleOffset(0.95, "xy");
     hist->SetLineWidth(2);
     hist->SetTitleSize(1.4 * hist->GetLabelSize(), "xy");
     hist->SetTitleFont(FONT, "xy");

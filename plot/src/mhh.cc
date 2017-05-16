@@ -39,8 +39,9 @@ int main(int argc, char *argv[]) {
     hist->SetYTitle("1 / #sigma d#sigma / dm_{hh}");
 
     // Fill and draw histogram
-    fillHist(move(fin), hist);
+    const int nev = fillHist(move(fin), hist);
     hist->DrawNormalized();
+    std::cout << "-- Number of events = " << nev << '\n';
 
     auto cm_energy = mkText();
     cm_energy->DrawLatex(0.7, 0.92, "#sqrt{s} = 13 TeV");
@@ -48,7 +49,8 @@ int main(int argc, char *argv[]) {
     canvas->SaveAs(argv[2]);
 }
 
-void fillHist(unique_ptr<ifstream> fin, shared_ptr<TH1> hist) {
+int fillHist(unique_ptr<ifstream> fin, shared_ptr<TH1> hist) {
+    int nev = 0;
     string line;
     while (getline(*fin, line)) {
         if (line.front() == '#') { continue; }  // comment line
@@ -57,7 +59,11 @@ void fillHist(unique_ptr<ifstream> fin, shared_ptr<TH1> hist) {
         double mhh, pT, dR;
         if (!(iss >> mhh >> pT >> dR)) { break; }
 
-        if (pT > 0) { hist->Fill(mhh); }
+        if (pT > 0) {
+            hist->Fill(mhh);
+            ++nev;
+        }
     }
     fin->close();
+    return nev;
 }
