@@ -65,6 +65,11 @@ void LoopParams::init(const CM22 &k) {
     clearcache();  // remove all integrals from the cache
 }
 
+complex<double> fTri(const LoopParams &p) {
+    auto tri = complex<double>{2, 0} + (4 - p.s_) * p.mQ2_ * p.Cab_;
+    return (2.0 / p.s_) * tri;
+}
+
 complex<double> fBox(const LoopParams &p) {
     if (p.s_ <= 0) { return {0, 0}; }
 
