@@ -1,4 +1,4 @@
-PKGNAME  := MCGGH
+PKGNAME  := mcggh
 SRCDIR   := src
 BINDIR   := bin
 LIBDIR   := lib
