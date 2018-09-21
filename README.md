@@ -1,4 +1,4 @@
-# MCGGH
+# mcggh
 
 A parton-level Monte Carlo generator for Higgs production through gluon fusion process at hadron colliders.
 
